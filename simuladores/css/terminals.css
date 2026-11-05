@@ -1,0 +1,315 @@
+/* ==========================================================================
+   TERMINALS.CSS - SIMULADORES DE TERMINAL LINUX Y WINDOWS
+   Entornos interactivos con soporte táctil y atajos móviles
+   ========================================================================== */
+
+.terminal-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  font-family: var(--font-mono);
+}
+
+/* Tema Linux */
+.terminal-container.linux-theme {
+  background-color: #0c0d10;
+  color: #e6edf3;
+}
+
+/* Tema Windows */
+.terminal-container.win-theme {
+  background-color: #0c0c0c;
+  color: #cccccc;
+}
+
+/* Barra de Ventana (Estilo Mac/Linux y Estilo Windows) */
+.term-window-bar {
+  height: 38px;
+  background-color: #161b22;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  flex-shrink: 0;
+}
+
+.term-window-dots {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot.close { background-color: #ff5f56; }
+.dot.min   { background-color: #ffbd2e; }
+.dot.max   { background-color: #27c93f; }
+
+.term-window-title {
+  font-size: 12px;
+  color: #8b949e;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.term-window-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.term-bar-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #c9d1d9;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.term-bar-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+/* Barra estilo Windows Terminal */
+.win-bar {
+  background-color: #1f1f1f;
+  padding: 0;
+  height: 36px;
+}
+
+.win-tabs {
+  display: flex;
+  height: 100%;
+}
+
+.win-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: #9d9d9d;
+  font-family: var(--font-main);
+  font-size: 12px;
+  padding: 0 14px;
+  height: 100%;
+  cursor: pointer;
+  border-right: 1px solid #2d2d2d;
+  transition: all var(--transition-fast);
+}
+
+.win-tab-btn:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+  color: #e0e0e0;
+}
+
+.win-tab-btn.active {
+  background-color: #0c0c0c;
+  color: #ffffff;
+  border-bottom: 2px solid #0078d7;
+}
+
+.ps-icon {
+  background: #012456;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 10px;
+  padding: 2px 4px;
+  border-radius: 2px;
+}
+
+.cmd-icon {
+  background: #333333;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 10px;
+  padding: 2px 4px;
+  border-radius: 2px;
+}
+
+.win-window-controls {
+  display: flex;
+  height: 100%;
+}
+
+.win-control {
+  width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9d9d9d;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background var(--transition-fast);
+}
+
+.win-control:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.win-control.close:hover {
+  background-color: #e81123;
+  color: #ffffff;
+}
+
+/* Pantalla de Terminal */
+.term-screen {
+  flex: 1;
+  padding: 14px 18px;
+  overflow-y: auto;
+  font-size: 13.5px;
+  line-height: 20px;
+  cursor: text;
+  user-select: text;
+}
+
+.win-screen.powershell-active {
+  background-color: #012456;
+  color: #eeedf0;
+}
+
+.term-banner {
+  white-space: pre-wrap;
+  margin-bottom: 12px;
+  color: #8b949e;
+}
+
+.win-banner {
+  color: #cccccc;
+}
+
+/* Línea de Prompt */
+.term-prompt-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  width: 100%;
+}
+
+/* Colores de Prompt Linux */
+.linux-prompt {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.linux-prompt .user { color: #58a6ff; }
+.linux-prompt .path { color: #7ee787; }
+
+/* Prompt Windows */
+.win-prompt {
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.term-input-container {
+  flex: 1;
+  min-width: 140px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.term-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  padding: 0;
+  margin: 0;
+}
+
+/* Salida formateada de comandos */
+.term-cmd-entry {
+  margin-bottom: 6px;
+}
+
+.term-cmd-echo {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.term-cmd-output {
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin-bottom: 6px;
+}
+
+/* Colores utilitarios de la terminal */
+.hl-green   { color: #3fb950; font-weight: 600; }
+.hl-cyan    { color: #58a6ff; }
+.hl-yellow  { color: #d29922; }
+.hl-red     { color: #f85149; }
+.hl-magenta { color: #bc8cff; }
+.hl-blue    { color: #1f6feb; }
+.hl-dim     { color: #6e7681; }
+
+/* Barra de Atajos Móviles (Android / Tablet Friendly) */
+.mobile-term-bar {
+  height: 42px;
+  background-color: #161b22;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex-shrink: 0;
+}
+
+.mobile-term-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.win-mobile-bar {
+  background-color: #1f1f1f;
+}
+
+.mob-key {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #c9d1d9;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+}
+
+.mob-key:active {
+  background: #58a6ff;
+  color: #000000;
+  transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+  .term-screen {
+    font-size: 12.5px;
+    padding: 10px 12px;
+  }
+}

@@ -1,0 +1,1839 @@
+/* ==========================================================================
+   HARDWARE-SIMS.CSS — 3D Professional Hardware Simulator Visual Layer
+   Inspired by pclab.eniun.com — isometric perspective, RGB glow, SVG art
+   Sections:
+     1. GLOBAL WORKSHOP ENVIRONMENT
+     2. SIM 1 — RECOGNITION
+     3. SIM 2 — PLACEMENT
+     4. SIM 3 — UPGRADE
+     5. SIM 4 — MAINTENANCE
+     6. SVG COMPONENT ART STYLES
+     7. 3D TRANSFORMS AND PERSPECTIVE
+     8. RGB ANIMATIONS
+     9. RESPONSIVE
+   ========================================================================== */
+
+/* ==========================================================================
+   1. GLOBAL WORKSHOP ENVIRONMENT
+   ========================================================================== */
+
+:root {
+  --hw-bg-deep:    #06070d;
+  --hw-bg-panel:   #0d0f1a;
+  --hw-bg-card:    #111421;
+  --hw-bg-raised:  #161925;
+  --hw-border:     rgba(255,255,255,0.07);
+  --hw-border-hi:  rgba(255,255,255,0.14);
+  --hw-text-muted: #6b7280;
+  --hw-text-dim:   #9ca3af;
+  --hw-text-norm:  #d1d5db;
+  --hw-text-bright:#ffffff;
+  --hw-accent-blue:#0ea5e9;
+  --hw-accent-cyan:#22d3ee;
+  --hw-accent-grn: #22c55e;
+  --hw-accent-red: #ef4444;
+  --hw-accent-orn: #f97316;
+  --hw-accent-prp: #a855f7;
+  --hw-glow-blue:  0 0 20px rgba(14,165,233,0.4);
+  --hw-glow-grn:   0 0 20px rgba(34,197,94,0.4);
+  --hw-glow-red:   0 0 20px rgba(239,68,68,0.4);
+  --hw-glow-prp:   0 0 20px rgba(168,85,247,0.4);
+  --hw-pcb-green:  #1a3d1a;
+  --hw-pcb-dark:   #1c2033;
+  --transition-fast: 0.18s ease;
+}
+
+/* Workshop dot-grid background (pure CSS SVG data-uri) */
+.hw-stage-bg,
+.recog-viewport,
+.place-chassis-stage,
+.upgrade-bench-area,
+.clean-canvas-workspace {
+  background:
+    radial-gradient(ellipse at 30% 40%, #0e1628 0%, #080b14 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ccircle cx='1' cy='1' r='0.8' fill='rgba(255,255,255,0.04)'/%3E%3C/svg%3E") repeat;
+  background-blend-mode: normal, overlay;
+}
+
+/* Base container */
+.hw-sim-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: var(--hw-bg-deep);
+  overflow: hidden;
+  position: relative;
+}
+
+/* ---- Topbar / Header ---- */
+.hw-sim-topbar {
+  min-height: 54px;
+  background: linear-gradient(180deg, #131626 0%, #0d0f1a 100%);
+  border-bottom: 1px solid var(--hw-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  gap: 14px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+
+/* Legacy alias */
+.hw-sim-header { min-height: 54px; background: linear-gradient(180deg, #131626 0%, #0d0f1a 100%); border-bottom: 1px solid var(--hw-border); display: flex; align-items: center; justify-content: space-between; padding: 0 18px; gap: 14px; flex-shrink: 0; box-shadow: 0 2px 12px rgba(0,0,0,0.5); }
+
+.hw-sim-title-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hw-sim-badge {
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 3px;
+  width: fit-content;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.badge-recog   { background: linear-gradient(90deg,#0ea5e9,#22d3ee); color:#fff; }
+.badge-place   { background: linear-gradient(90deg,#22c55e,#16a34a); color:#fff; }
+.badge-upgrade { background: linear-gradient(90deg,#f97316,#ef4444); color:#fff; }
+.badge-clean   { background: linear-gradient(90deg,#a855f7,#ec4899); color:#fff; }
+
+.hw-sim-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--hw-text-norm);
+  letter-spacing: 0.2px;
+}
+
+.hw-sim-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Clean stats row for sim-4 */
+.clean-stats-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.clean-meter-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+}
+
+.clean-meter-val {
+  font-weight: 800;
+  color: #fff;
+}
+
+/* ---- Mode / action buttons ---- */
+.hw-btn-mode {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--hw-border-hi);
+  color: var(--hw-text-dim);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 13px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+.hw-btn-mode:hover {
+  background: rgba(255,255,255,0.1);
+  color: var(--hw-text-bright);
+  border-color: rgba(255,255,255,0.2);
+}
+
+.hw-btn-mode.active {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  color: #fff;
+  border-color: #38bdf8;
+  box-shadow: 0 0 10px rgba(14,165,233,0.35);
+}
+
+/* Main workspace flex row */
+.hw-workspace {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Three-column layout used in Sims 1 & 2 */
+.hw-main-layout {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   2. SIM 1 — RECOGNITION
+   ========================================================================== */
+
+/* Left rail — component catalog */
+.hw-parts-rail,
+.recog-sidebar {
+  width: 270px;
+  background: linear-gradient(180deg, #101320 0%, #0c0e18 100%);
+  border-right: 1px solid var(--hw-border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.hw-rail-heading {
+  padding: 10px 14px 6px;
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--hw-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid var(--hw-border);
+}
+
+.recog-catalog-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  scrollbar-width: thin;
+  scrollbar-color: #2a2f42 transparent;
+}
+
+/* Component card in left rail */
+.recog-item-card {
+  background: var(--hw-bg-card);
+  border: 1px solid var(--hw-border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.recog-item-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--hw-accent-blue);
+  transform: scaleY(0);
+  transition: transform var(--transition-fast);
+  border-radius: 2px 0 0 2px;
+}
+
+.recog-item-card:hover {
+  background: #182036;
+  border-color: var(--hw-accent-blue);
+  transform: translateX(2px);
+  box-shadow: var(--hw-glow-blue);
+}
+
+.recog-item-card:hover::before,
+.recog-item-card.active::before {
+  transform: scaleY(1);
+}
+
+.recog-item-card.active {
+  background: #102240;
+  border-color: var(--hw-accent-blue);
+  box-shadow: inset 0 0 12px rgba(14,165,233,0.15), var(--hw-glow-blue);
+}
+
+.recog-icon {
+  font-size: 24px;
+  width: 44px;
+  height: 44px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--hw-border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+.recog-info h4 {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--hw-text-bright);
+  margin: 0 0 2px;
+}
+
+.recog-info span {
+  font-size: 10px;
+  color: var(--hw-text-muted);
+}
+
+/* ---- Centre stage area ---- */
+.hw-stage-area,
+.recog-viewport {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: auto;
+  padding: 24px;
+}
+
+/* 3D perspective stage */
+.comp-3d-stage {
+  perspective: 900px;
+  perspective-origin: 50% 40%;
+}
+
+.comp-3d-model {
+  transform-style: preserve-3d;
+  transform: rotateX(12deg) rotateY(-18deg);
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.comp-3d-model:hover {
+  transform: rotateX(8deg) rotateY(5deg) scale(1.03);
+}
+
+/* Visual box that holds the component icon/SVG */
+.recog-visual-box,
+.recogVisualBox {
+  width: 100%;
+  max-width: 540px;
+  min-height: 300px;
+  background:
+    radial-gradient(ellipse at 50% 20%, rgba(14,165,233,0.06) 0%, transparent 60%),
+    linear-gradient(180deg, #131929 0%, #0b0d16 100%);
+  border: 1px solid var(--hw-border-hi);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 18px;
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.8),
+    inset 0 1px 0 rgba(255,255,255,0.07);
+}
+
+/* corner reflections */
+.recog-visual-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(14,165,233,0.4), transparent);
+}
+
+/* Stage card wrapper */
+.recog-stage-card {
+  width: 100%;
+  max-width: 580px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Details / info panel (below stage or right rail) */
+.recog-details-panel,
+.hw-info-panel {
+  width: 100%;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--hw-border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Right info rail */
+.hw-info-panel {
+  width: 280px;
+  background: linear-gradient(180deg, #101320 0%, #0c0e18 100%);
+  border-right: none;
+  border-left: 1px solid var(--hw-border);
+  border-radius: 0;
+  padding: 16px;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.recog-prop-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: 11.5px;
+  border-bottom: 1px solid var(--hw-border);
+  padding-bottom: 6px;
+  gap: 8px;
+}
+
+.recog-prop-lbl {
+  color: var(--hw-text-muted);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.recog-prop-val {
+  color: var(--hw-accent-cyan);
+  font-weight: 700;
+  text-align: right;
+}
+
+/* Hotspot pulsing buttons */
+.hotspot {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  background: radial-gradient(circle, #0ea5e9 0%, #0369a1 100%);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  animation: pulseHotspot 1.8s ease-in-out infinite;
+  box-shadow: 0 0 0 0 rgba(14,165,233,0.7);
+  z-index: 10;
+  transition: transform var(--transition-fast);
+}
+
+.hotspot:hover {
+  transform: scale(1.3);
+  animation: none;
+  box-shadow: 0 0 20px #0ea5e9;
+}
+
+@keyframes pulseHotspot {
+  0%   { box-shadow: 0 0 0 0 rgba(14,165,233,0.7); }
+  60%  { box-shadow: 0 0 0 10px rgba(14,165,233,0); }
+  100% { box-shadow: 0 0 0 0 rgba(14,165,233,0); }
+}
+
+/* Quiz area */
+.quiz-options-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 7px;
+}
+
+.quiz-opt-btn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--hw-border-hi);
+  border-radius: 6px;
+  color: var(--hw-text-norm);
+  font-size: 12px;
+  padding: 8px 12px;
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.quiz-opt-btn:hover {
+  background: rgba(14,165,233,0.15);
+  border-color: var(--hw-accent-blue);
+  color: #fff;
+}
+
+.quiz-opt-btn.correct {
+  background: rgba(34,197,94,0.2);
+  border-color: var(--hw-accent-grn);
+  color: var(--hw-accent-grn);
+  box-shadow: var(--hw-glow-grn);
+}
+
+.quiz-opt-btn.wrong {
+  background: rgba(239,68,68,0.2);
+  border-color: var(--hw-accent-red);
+  color: var(--hw-accent-red);
+  box-shadow: var(--hw-glow-red);
+  animation: shakeError 0.35s ease;
+}
+
+/* ==========================================================================
+   3. SIM 2 — PLACEMENT
+   ========================================================================== */
+
+.place-parts-palette {
+  width: 270px;
+  background: linear-gradient(180deg, #101320 0%, #0c0e18 100%);
+  border-right: 1px solid var(--hw-border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+#placePalette {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #2a2f42 transparent;
+}
+
+/* Draggable palette card */
+.place-item-card {
+  background: var(--hw-bg-card);
+  border: 1px solid var(--hw-border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.place-item-card:hover {
+  background: #182036;
+  border-color: var(--hw-accent-grn);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5), var(--hw-glow-grn);
+  transform: translateY(-2px);
+}
+
+.place-item-card.selected {
+  background: #12301c;
+  border-color: var(--hw-accent-grn);
+  box-shadow: 0 0 0 2px var(--hw-accent-grn), var(--hw-glow-grn);
+}
+
+.place-item-card.placed {
+  opacity: 0.28;
+  pointer-events: none;
+  filter: grayscale(0.6);
+}
+
+/* Chassis stage centre */
+.place-chassis-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: auto;
+  padding: 20px;
+}
+
+.place-chassis-container {
+  width: 100%;
+  max-width: 680px;
+  background: linear-gradient(180deg, #131929 0%, #0d1018 100%);
+  border: 1px solid var(--hw-border-hi);
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow:
+    0 24px 60px rgba(0,0,0,0.8),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+.chassis-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--hw-border);
+  padding-bottom: 12px;
+}
+
+/* Desktop motherboard grid */
+.chassis-motherboard {
+  background:
+    linear-gradient(135deg, #0e2010 0%, #0a1a0e 50%, #0e1a10 100%);
+  border: 1px solid #1e4020;
+  border-radius: 10px;
+  padding: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  position: relative;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.5);
+}
+
+/* PCB circuit-trace overlay */
+.chassis-motherboard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(90deg, rgba(50,160,70,0.07) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(50,160,70,0.07) 1px, transparent 1px);
+  background-size: 24px 24px;
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+/* Notebook board */
+.notebook-board {
+  background: linear-gradient(135deg, #0d1a2a 0%, #091120 100%);
+  border: 1px solid #1a2f4a;
+  border-radius: 10px;
+  padding: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  position: relative;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.5);
+}
+
+/* ---- REAL slot targets ---- */
+.slot-target-box {
+  min-height: 100px;
+  background: rgba(255,255,255,0.025);
+  border: 2px dashed rgba(255,255,255,0.12);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.slot-target-box::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.025) 50%, transparent 100%);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+/* CPU socket — LGA style */
+#target_cpu {
+  border-color: rgba(234,179,8,0.3);
+  background: rgba(234,179,8,0.03);
+}
+
+/* RAM slot */
+#target_ram {
+  border-color: rgba(14,165,233,0.3);
+  background: rgba(14,165,233,0.03);
+}
+
+/* PCIe GPU slot */
+#target_gpu {
+  border-color: rgba(168,85,247,0.3);
+  background: rgba(168,85,247,0.03);
+  grid-column: span 2;
+}
+
+/* M.2 slot */
+#target_m2 {
+  border-color: rgba(34,197,94,0.3);
+  background: rgba(34,197,94,0.03);
+}
+
+/* PSU */
+#target_psu {
+  border-color: rgba(249,115,22,0.3);
+  background: rgba(249,115,22,0.03);
+}
+
+.slot-target-box:hover {
+  border-color: var(--hw-accent-blue);
+  background: rgba(14,165,233,0.08);
+  box-shadow: inset 0 0 20px rgba(14,165,233,0.06), var(--hw-glow-blue);
+}
+
+.slot-target-box.highlight-valid {
+  border-color: var(--hw-accent-grn) !important;
+  border-style: solid !important;
+  background: rgba(34,197,94,0.12) !important;
+  box-shadow: inset 0 0 20px rgba(34,197,94,0.1), 0 0 24px rgba(34,197,94,0.5) !important;
+  animation: validPulse 0.5s ease;
+}
+
+.slot-target-box.highlight-invalid {
+  border-color: var(--hw-accent-red) !important;
+  border-style: solid !important;
+  background: rgba(239,68,68,0.12) !important;
+  box-shadow: inset 0 0 20px rgba(239,68,68,0.1), 0 0 24px rgba(239,68,68,0.5) !important;
+  animation: shakeError 0.35s ease;
+}
+
+.slot-target-box.occupied {
+  border-style: solid;
+  border-color: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+}
+
+.slot-target-box .slot-ph {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--hw-text-muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.slot-target-box .slot-ph .slot-icon {
+  font-size: 28px;
+  opacity: 0.6;
+}
+
+.slot-target-box .slot-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--hw-accent-grn);
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.slot-target-box .slot-content .slot-icon {
+  font-size: 30px;
+}
+
+/* Real slot visual enhancements */
+.slot-visual-cpu {
+  /* Gold pin grid pattern */
+  background-image: repeating-linear-gradient(
+    90deg, rgba(234,179,8,0.25) 0px, rgba(234,179,8,0.25) 1px, transparent 1px, transparent 6px
+  ), repeating-linear-gradient(
+    0deg, rgba(234,179,8,0.25) 0px, rgba(234,179,8,0.25) 1px, transparent 1px, transparent 6px
+  );
+  background-size: 6px 6px;
+  border: 1px solid rgba(234,179,8,0.4);
+  border-radius: 4px;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 6px;
+}
+
+.slot-visual-ram {
+  width: 12px;
+  height: 70px;
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  border: 1px solid rgba(14,165,233,0.5);
+  border-radius: 2px;
+  margin: 0 auto 6px;
+  position: relative;
+}
+
+.slot-visual-ram::before,
+.slot-visual-ram::after {
+  content: '';
+  position: absolute;
+  left: -4px; right: -4px;
+  height: 6px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 2px;
+}
+.slot-visual-ram::before { top: -1px; }
+.slot-visual-ram::after  { bottom: -1px; }
+
+.slot-visual-pcie {
+  width: 100%;
+  height: 10px;
+  background: repeating-linear-gradient(
+    90deg, rgba(234,179,8,0.6) 0px, rgba(234,179,8,0.6) 2px, #0f172a 2px, #0f172a 6px
+  );
+  border: 1px solid rgba(234,179,8,0.4);
+  border-radius: 2px;
+  margin-bottom: 6px;
+}
+
+/* Status message in placement sim */
+#placeStatusMsg {
+  background: rgba(14,165,233,0.08);
+  border-left: 3px solid var(--hw-accent-blue);
+  padding: 8px 14px;
+  font-size: 11.5px;
+  color: #93c5fd;
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 2px;
+}
+
+/* ==========================================================================
+   4. SIM 3 — UPGRADE
+   ========================================================================== */
+
+.upgrade-client-panel {
+  width: 310px;
+  background: linear-gradient(180deg, #101320 0%, #0c0e18 100%);
+  border-right: 1px solid var(--hw-border);
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+  gap: 14px;
+  flex-shrink: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #2a2f42 transparent;
+}
+
+.client-ticket {
+  background: var(--hw-bg-card);
+  border: 1px solid var(--hw-border-hi);
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+
+.client-avatar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  color: var(--hw-text-bright);
+  font-size: 13px;
+}
+
+.client-dialogue {
+  font-size: 11.5px;
+  color: var(--hw-text-dim);
+  line-height: 1.6;
+  background: rgba(0,0,0,0.3);
+  padding: 10px 12px;
+  border-radius: 8px;
+  border-left: 2px solid var(--hw-accent-blue);
+  font-style: italic;
+}
+
+/* Benchmark box */
+.upgrade-benchmark-box {
+  background: var(--hw-bg-card);
+  border-radius: 10px;
+  padding: 14px;
+  border: 1px solid var(--hw-border-hi);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+
+.bench-bar-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bench-lbl-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+}
+
+.bench-progress {
+  width: 100%;
+  height: 8px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bench-fill-old {
+  height: 100%;
+  background: linear-gradient(90deg, #ef4444, #f97316);
+  transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(239,68,68,0.5);
+}
+
+.bench-fill-new {
+  height: 100%;
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(34,197,94,0.5);
+}
+
+/* Upgrade bench area */
+.upgrade-bench-area {
+  flex: 1;
+  display: flex;
+  position: relative;
+  overflow: auto;
+  padding: 18px;
+  gap: 16px;
+}
+
+.machine-side {
+  flex: 1;
+  background: linear-gradient(180deg, #131929 0%, #0d1018 100%);
+  border: 1px solid var(--hw-border-hi);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 12px;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.6);
+  min-width: 0;
+}
+
+.store-side {
+  width: 300px;
+  background: linear-gradient(180deg, #131929 0%, #0d1018 100%);
+  border: 1px solid var(--hw-border-hi);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 12px;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.6);
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+/* Upgrade component cards */
+.up-comp-card {
+  background: var(--hw-bg-card);
+  border: 1px solid var(--hw-border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+}
+
+/* OLD component — worn, red-tinted */
+.up-comp-card.old-comp {
+  border-color: rgba(239,68,68,0.3);
+  background: rgba(239,68,68,0.04);
+  filter: saturate(0.6);
+}
+
+.up-comp-card.old-comp:hover {
+  border-color: var(--hw-accent-red);
+  background: rgba(239,68,68,0.1);
+  box-shadow: var(--hw-glow-red);
+  filter: saturate(1);
+}
+
+/* NEW component — glossy, green-tinted */
+.up-comp-card.new-comp {
+  border-color: rgba(34,197,94,0.3);
+  background: rgba(34,197,94,0.04);
+}
+
+.up-comp-card.new-comp:hover {
+  border-color: var(--hw-accent-grn);
+  background: rgba(34,197,94,0.1);
+  box-shadow: var(--hw-glow-grn);
+  transform: translateY(-2px);
+}
+
+.up-comp-card.new-comp::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(34,197,94,0.5), transparent);
+}
+
+.up-comp-badge {
+  font-size: 9px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.badge-old { background: rgba(239,68,68,0.2); color: #fca5a5; border: 1px solid rgba(239,68,68,0.4); }
+.badge-new { background: rgba(34,197,94,0.2); color: #86efac; border: 1px solid rgba(34,197,94,0.4); }
+
+.tasks-list-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  color: var(--hw-text-dim);
+  padding: 6px 0;
+  border-bottom: 1px solid var(--hw-border);
+}
+
+.tasks-list-item.done {
+  color: var(--hw-accent-grn);
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+/* ==========================================================================
+   5. SIM 4 — MAINTENANCE
+   ========================================================================== */
+
+.clean-toolkit-bar {
+  height: 50px;
+  background: linear-gradient(180deg, #131626 0%, #0d0f1a 100%);
+  border-bottom: 1px solid var(--hw-border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex-shrink: 0;
+}
+
+.clean-tool-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--hw-border-hi);
+  color: var(--hw-text-dim);
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 6px 13px;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+}
+
+.clean-tool-btn:hover {
+  background: rgba(255,255,255,0.1);
+  color: var(--hw-text-bright);
+}
+
+.clean-tool-btn.active {
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  color: #fff;
+  border-color: #a855f7;
+  box-shadow: 0 0 12px rgba(168,85,247,0.5);
+}
+
+.clean-canvas-workspace {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: auto;
+  padding: 24px;
+}
+
+/* Maintenance motherboard stage */
+.maint-board-stage {
+  width: 100%;
+  max-width: 640px;
+  height: 420px;
+  background:
+    linear-gradient(135deg, #0e2010 0%, #0a1a0e 50%, #0e1a10 100%);
+  border: 2px solid #1e4020;
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.8),
+    inset 0 0 60px rgba(0,0,0,0.5);
+}
+
+/* PCB grid overlay on maintenance board */
+.maint-board-stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(90deg, rgba(50,160,70,0.07) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(50,160,70,0.07) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Dust overlay */
+.maint-dust-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 40%, rgba(180,160,110,0.65) 0%, rgba(140,120,80,0.0) 70%),
+    radial-gradient(ellipse at 70% 60%, rgba(160,140,90,0.55) 0%, rgba(130,110,70,0.0) 60%),
+    repeating-linear-gradient(45deg, rgba(140,120,80,0.08) 0px, rgba(140,120,80,0.08) 2px, transparent 2px, transparent 20px);
+  pointer-events: auto;
+  cursor: crosshair;
+  z-index: 20;
+  transition: opacity 0.5s ease;
+  animation: dustFloat 8s ease-in-out infinite;
+}
+
+@keyframes dustFloat {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.92; }
+}
+
+/* Animated dust particles */
+.maint-dust-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle 2px at 15% 25%, rgba(200,180,130,0.6) 0%, transparent 100%),
+    radial-gradient(circle 1px at 40% 60%, rgba(200,180,130,0.5) 0%, transparent 100%),
+    radial-gradient(circle 2px at 60% 20%, rgba(200,180,130,0.6) 0%, transparent 100%),
+    radial-gradient(circle 1px at 80% 70%, rgba(200,180,130,0.5) 0%, transparent 100%),
+    radial-gradient(circle 3px at 25% 80%, rgba(200,180,130,0.4) 0%, transparent 100%),
+    radial-gradient(circle 1px at 70% 40%, rgba(200,180,130,0.6) 0%, transparent 100%),
+    radial-gradient(circle 2px at 90% 15%, rgba(200,180,130,0.5) 0%, transparent 100%),
+    radial-gradient(circle 1px at 50% 90%, rgba(200,180,130,0.4) 0%, transparent 100%);
+  animation: particleDrift 12s linear infinite;
+}
+
+@keyframes particleDrift {
+  0%   { transform: translate(0, 0); }
+  33%  { transform: translate(8px, 4px); }
+  66%  { transform: translate(-4px, 8px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Fan unit — CSS-based circle fans */
+.maint-fan-unit {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 50%, #1e2436 0%, #0e1018 60%, #060709 100%);
+  border: 3px solid #2a3048;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: box-shadow 0.4s ease;
+  user-select: none;
+  box-shadow:
+    0 0 0 6px rgba(255,255,255,0.03),
+    0 6px 20px rgba(0,0,0,0.6);
+}
+
+.maint-fan-unit::before {
+  content: '';
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+    rgba(255,255,255,0.08) 0deg 10deg,
+    rgba(0,0,0,0.3) 10deg 45deg
+  );
+  transition: transform 0.1s linear;
+}
+
+.maint-fan-unit::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #3a3f52 0%, #1e2230 100%);
+  border: 2px solid rgba(255,255,255,0.1);
+  z-index: 2;
+}
+
+.maint-fan-unit.dirty-fan {
+  filter: sepia(0.5) saturate(0.6) brightness(0.75);
+  border-color: rgba(160,140,80,0.4);
+}
+
+.maint-fan-unit.spinning::before {
+  animation: fanBladeSpin 0.3s linear infinite;
+}
+
+.maint-fan-unit.clean-fan {
+  box-shadow:
+    0 0 0 6px rgba(14,165,233,0.08),
+    0 0 20px rgba(14,165,233,0.3),
+    0 6px 20px rgba(0,0,0,0.6);
+  border-color: rgba(14,165,233,0.4);
+  filter: none;
+}
+
+@keyframes fanBladeSpin {
+  100% { transform: rotate(360deg); }
+}
+
+.maint-fan-left  { top: 32px; left: 36px; }
+.maint-fan-right { bottom: 32px; right: 36px; }
+
+/* CPU die area */
+.maint-cpu-die-area {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  background:
+    linear-gradient(135deg, #1a2238 0%, #111828 100%);
+  border: 2px solid #3a4a6a;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  z-index: 15;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+/* Thermal paste spot */
+.thermal-paste-spot {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  transition: all 0.4s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.8);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.thermal-paste-spot.dry-paste {
+  background: radial-gradient(circle, #8a7050 0%, #5c4a30 60%, #3a2e1c 100%);
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.5);
+}
+
+.thermal-paste-spot.clean-die {
+  background:
+    linear-gradient(135deg, #c8d6e0 0%, #ecf0f4 40%, #90a8b8 100%);
+  border: 1px solid rgba(255,255,255,0.3);
+  box-shadow:
+    0 0 16px rgba(200,220,240,0.6),
+    inset 0 2px 6px rgba(255,255,255,0.4);
+}
+
+.thermal-paste-spot.fresh-paste {
+  background: radial-gradient(circle, #bfdbfe 0%, #60a5fa 40%, #2563eb 100%);
+  box-shadow:
+    0 0 20px rgba(96,165,250,0.8),
+    inset 0 2px 6px rgba(255,255,255,0.3);
+  animation: pasteGlow 2s ease-in-out infinite;
+}
+
+@keyframes pasteGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(96,165,250,0.8); }
+  50%       { box-shadow: 0 0 30px rgba(96,165,250,1); }
+}
+
+/* Heatsink */
+.maint-heatsink-unit {
+  position: absolute;
+  width: 155px;
+  height: 155px;
+  background: repeating-linear-gradient(
+    0deg,
+    #3c4458 0px, #3c4458 5px,
+    #282d3c 5px, #282d3c 11px
+  );
+  border: 2px solid #6a7898;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 30;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.8),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.9);
+  text-align: center;
+  padding: 12px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  flex-direction: column;
+  gap: 4px;
+  transition: box-shadow 0.3s ease, opacity 0.4s ease;
+}
+
+.maint-heatsink-unit:hover {
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.8),
+    0 0 20px rgba(14,165,233,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+.maint-heatsink-unit.removed {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) translateY(-40px);
+}
+
+/* Air blower FX */
+.air-blower-fx {
+  position: absolute;
+  pointer-events: none;
+  width: 160px;
+  height: 90px;
+  background: radial-gradient(ellipse at 10% 50%,
+    rgba(200,235,255,0.9) 0%,
+    rgba(180,220,255,0.3) 40%,
+    rgba(200,235,255,0) 70%);
+  filter: blur(5px);
+  z-index: 60;
+  animation: blastAir 0.15s ease-in-out infinite alternate;
+}
+
+@keyframes blastAir {
+  from { opacity: 0.6; transform: scaleX(0.92) scaleY(0.95); }
+  to   { opacity: 1;   transform: scaleX(1.05) scaleY(1.08); }
+}
+
+/* ==========================================================================
+   6. SVG COMPONENT ART STYLES
+   ========================================================================== */
+
+/* Inline SVG motherboard */
+.svg-motherboard {
+  width: 100%;
+  height: auto;
+  max-width: 520px;
+  display: block;
+  filter: drop-shadow(0 12px 30px rgba(0,0,0,0.9));
+}
+
+/* SVG component icon wrappers */
+.comp-svg-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* Large component display (Sim 1 centre) */
+.comp-display-svg {
+  max-width: 320px;
+  max-height: 260px;
+  width: 90%;
+  height: 90%;
+  filter: drop-shadow(0 8px 24px rgba(0,0,0,0.8));
+  transition: filter 0.3s ease;
+}
+
+.comp-display-svg:hover {
+  filter: drop-shadow(0 12px 32px rgba(14,165,233,0.4));
+}
+
+/* CPU icon */
+.svg-cpu rect.ihs {
+  fill: url(#cpuIhsGrad);
+}
+
+/* RAM stick glow on hover */
+.svg-ram:hover .ram-heatspreader {
+  filter: brightness(1.3);
+}
+
+/* RGB heatspreader animation */
+.rgb-sweep {
+  animation: rgbSweep 3s linear infinite;
+}
+
+@keyframes rgbSweep {
+  0%   { stop-color: #ef4444; }
+  16%  { stop-color: #f97316; }
+  33%  { stop-color: #eab308; }
+  50%  { stop-color: #22c55e; }
+  66%  { stop-color: #0ea5e9; }
+  83%  { stop-color: #a855f7; }
+  100% { stop-color: #ef4444; }
+}
+
+/* Chip bump pattern on RAM */
+.chip-bump {
+  fill: #0f172a;
+  stroke: rgba(255,255,255,0.1);
+  stroke-width: 0.5;
+}
+
+/* PCB trace lines */
+.pcb-trace {
+  stroke: rgba(80,200,100,0.35);
+  stroke-width: 0.8;
+  fill: none;
+  stroke-linecap: round;
+}
+
+/* PCB via dots */
+.pcb-via {
+  fill: rgba(200,180,50,0.5);
+  stroke: rgba(200,180,50,0.8);
+  stroke-width: 0.5;
+}
+
+/* Component text labels on SVG */
+.svg-label {
+  fill: rgba(255,255,255,0.5);
+  font-family: 'Courier New', monospace;
+  font-size: 7px;
+  letter-spacing: 0.5px;
+}
+
+.svg-label-sm {
+  fill: rgba(255,255,255,0.3);
+  font-family: 'Courier New', monospace;
+  font-size: 5px;
+}
+
+/* RGB glow ring on active components */
+.rgb-glow-ring {
+  animation: rgbRing 4s linear infinite;
+}
+
+@keyframes rgbRing {
+  0%   { stroke: #ef4444; filter: drop-shadow(0 0 6px #ef4444); }
+  25%  { stroke: #22c55e; filter: drop-shadow(0 0 6px #22c55e); }
+  50%  { stroke: #0ea5e9; filter: drop-shadow(0 0 6px #0ea5e9); }
+  75%  { stroke: #a855f7; filter: drop-shadow(0 0 6px #a855f7); }
+  100% { stroke: #ef4444; filter: drop-shadow(0 0 6px #ef4444); }
+}
+
+/* ==========================================================================
+   7. 3D TRANSFORMS AND PERSPECTIVE
+   ========================================================================== */
+
+.hw-perspective-stage {
+  perspective: 1200px;
+  perspective-origin: 50% 35%;
+}
+
+.hw-iso-object {
+  transform-style: preserve-3d;
+  transform: rotateX(20deg) rotateY(-25deg);
+  transition: transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+
+.hw-iso-object:hover {
+  transform: rotateX(10deg) rotateY(10deg) scale(1.04);
+}
+
+/* Floating animation for selected components */
+.comp-float {
+  animation: compFloat 4s ease-in-out infinite;
+}
+
+@keyframes compFloat {
+  0%, 100% { transform: translateY(0) rotateX(12deg) rotateY(-18deg); }
+  50%       { transform: translateY(-8px) rotateX(12deg) rotateY(-18deg); }
+}
+
+/* Slow auto-rotation */
+.comp-rotate-slow {
+  animation: compRotate 20s linear infinite;
+}
+
+@keyframes compRotate {
+  from { transform: rotateX(12deg) rotateY(0deg); }
+  to   { transform: rotateX(12deg) rotateY(360deg); }
+}
+
+/* 3D card face effects */
+.card-3d {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.card-3d::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.08) 0%,
+    transparent 40%,
+    transparent 60%,
+    rgba(0,0,0,0.2) 100%
+  );
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Top-lit surface highlight */
+.surface-toplight {
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.1) 0%,
+    rgba(255,255,255,0.03) 20%,
+    transparent 100%
+  );
+}
+
+/* ==========================================================================
+   8. RGB ANIMATIONS
+   ========================================================================== */
+
+/* Pulsing RGB border on selected/active components */
+@keyframes rgbBorderPulse {
+  0%   { border-color: rgba(239,68,68,0.8);  box-shadow: 0 0 16px rgba(239,68,68,0.5); }
+  25%  { border-color: rgba(34,197,94,0.8);  box-shadow: 0 0 16px rgba(34,197,94,0.5); }
+  50%  { border-color: rgba(14,165,233,0.8); box-shadow: 0 0 16px rgba(14,165,233,0.5); }
+  75%  { border-color: rgba(168,85,247,0.8); box-shadow: 0 0 16px rgba(168,85,247,0.5); }
+  100% { border-color: rgba(239,68,68,0.8);  box-shadow: 0 0 16px rgba(239,68,68,0.5); }
+}
+
+.rgb-active {
+  animation: rgbBorderPulse 3s linear infinite;
+}
+
+/* RAM RGB heatspreader */
+@keyframes ramRgb {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+.ram-rgb-effect {
+  background: linear-gradient(90deg,
+    #ef4444, #f97316, #eab308, #22c55e,
+    #0ea5e9, #a855f7, #ec4899, #ef4444
+  );
+  background-size: 200% 100%;
+  animation: ramRgb 3s linear infinite;
+}
+
+/* Validation pulse */
+@keyframes validPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(34,197,94,0.6); }
+  50%  { box-shadow: 0 0 0 12px rgba(34,197,94,0); }
+  100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+}
+
+/* Error shake */
+@keyframes shakeError {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+/* Slot filled flash */
+@keyframes slotFilled {
+  0%   { box-shadow: 0 0 0 0 rgba(34,197,94,0.8); }
+  40%  { box-shadow: 0 0 0 16px rgba(34,197,94,0); }
+  100% { box-shadow: none; }
+}
+
+.slot-just-filled {
+  animation: slotFilled 0.6s ease forwards;
+}
+
+/* Scan line effect on stage background */
+.scanline-overlay {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.04) 2px,
+    rgba(0,0,0,0.04) 4px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Corner accent brackets on stage cards */
+.stage-corner-tl,
+.stage-corner-tr,
+.stage-corner-bl,
+.stage-corner-br {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: var(--hw-accent-blue);
+  border-style: solid;
+  opacity: 0.6;
+}
+
+.stage-corner-tl { top: 8px; left: 8px;  border-width: 2px 0 0 2px; }
+.stage-corner-tr { top: 8px; right: 8px;  border-width: 2px 2px 0 0; }
+.stage-corner-bl { bottom: 8px; left: 8px;  border-width: 0 0 2px 2px; }
+.stage-corner-br { bottom: 8px; right: 8px;  border-width: 0 2px 2px 0; }
+
+/* Loading / init pulse on empty stage */
+@keyframes stagePulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.9; }
+}
+
+.stage-idle-hint {
+  animation: stagePulse 2.5s ease-in-out infinite;
+  color: var(--hw-text-muted);
+  font-size: 12px;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   9. RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 1100px) {
+  .hw-info-panel { width: 240px; }
+  .upgrade-client-panel { width: 270px; }
+  .store-side { width: 260px; }
+}
+
+@media (max-width: 850px) {
+  .hw-workspace,
+  .hw-main-layout,
+  .upgrade-bench-area {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .hw-parts-rail,
+  .recog-sidebar,
+  .place-parts-palette,
+  .upgrade-client-panel {
+    width: 100%;
+    max-height: 200px;
+    border-right: none;
+    border-bottom: 1px solid var(--hw-border);
+    flex-direction: row;
+  }
+
+  .hw-info-panel {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid var(--hw-border);
+    max-height: 220px;
+  }
+
+  .recog-catalog-list,
+  #placePalette {
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-height: 160px;
+  }
+
+  .recog-item-card,
+  .place-item-card {
+    min-width: 150px;
+    flex-shrink: 0;
+  }
+
+  .store-side {
+    width: 100%;
+  }
+
+  .chassis-motherboard {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hw-sim-topbar,
+  .hw-sim-header {
+    flex-direction: column;
+    height: auto;
+    padding: 10px 14px;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .clean-stats-row,
+  .hw-sim-controls {
+    overflow-x: auto;
+    width: 100%;
+  }
+
+  .maint-board-stage {
+    height: 320px;
+  }
+
+  .svg-motherboard { max-width: 100%; }
+}
+
+@media (max-width: 540px) {
+  .chassis-motherboard,
+  .notebook-board {
+    grid-template-columns: 1fr;
+  }
+
+  .hw-parts-rail,
+  .recog-sidebar {
+    max-height: 160px;
+  }
+
+  .clean-tool-btn span:last-child {
+    display: none;
+  }
+
+  .hw-sim-title { font-size: 11px; }
+
+  .comp-3d-model {
+    transform: rotateX(8deg) rotateY(-10deg) scale(0.9);
+  }
+}
+
+
+/* ==========================================================================
+   ESTILOS 3D WEBGL (PCLAB ENIUN STYLE) - HUD, CANVASES Y CONTROLES ORBITALES
+   ========================================================================== */
+.canvas-3d-hud {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  gap: 8px;
+  z-index: 50;
+  pointer-events: auto;
+}
+
+.hud-3d-btn {
+  background: rgba(18, 22, 34, 0.85);
+  border: 1px solid rgba(0, 210, 255, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #d0e7ff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  user-select: none;
+}
+
+.hud-3d-btn:hover {
+  background: rgba(0, 122, 204, 0.4);
+  border-color: #00d2ff;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 210, 255, 0.35);
+}
+
+.hud-3d-btn.active {
+  background: #007acc;
+  border-color: #00d2ff;
+  color: #fff;
+  box-shadow: 0 0 16px rgba(0, 210, 255, 0.6);
+}
+
+.place-3d-viewport,
+.upgrade-3d-viewport {
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 210, 255, 0.2);
+}
+
+.recog-hotspots-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background: rgba(14, 18, 28, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.hotspot-bar-title {
+  font-size: 11px;
+  font-weight: 800;
+  color: #00d2ff;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.hotspot-btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.hotspot-btn {
+  background: #1c2232;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cfd6e6;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.hotspot-btn .h-num {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #007acc;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hotspot-btn:hover {
+  background: #252e44;
+  border-color: #0098ff;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.hotspot-btn.active {
+  background: #005a9e;
+  border-color: #00d2ff;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
+}

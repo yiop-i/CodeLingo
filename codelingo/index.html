@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Simulador Dev & Hardware Suite - VS Code, Terminales y Montaje de PC/Laptop</title>
+  <meta name="description" content="Suite completa de simuladores: VS Code multi-lenguaje (Python, C, C++, Java, JS), Terminal Linux, Terminal Windows, Editor Web en vivo (HTML/CSS/JS) y Simulador de montaje de PC y Laptop (BuildCores y Cisco).">
+  <meta name="theme-color" content="#1e1e1e">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/vscode.css">
+  <link rel="stylesheet" href="css/terminals.css">
+  <link rel="stylesheet" href="css/webdev.css">
+  <link rel="stylesheet" href="css/pcbuilder.css">
+  <link rel="stylesheet" href="css/hardware-sims.css">
+</head>
+<body class="theme-dark">
+  <!-- Barra de Navegación Principal Universal -->
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">Dev & Hardware Suite</span>
+        <span class="brand-badge">Multi-OS Ready</span>
+      </div>
+    </div>
+
+    <!-- Pestañas de Módulos (Scrollable horizontalmente en móviles) -->
+    <nav class="module-nav" id="moduleNav">
+      <button class="nav-tab active" data-module="vscode">
+        <span class="tab-icon">💻</span>
+        <span class="tab-label">VS Code</span>
+      </button>
+      <button class="nav-tab" data-module="linux-term">
+        <span class="tab-icon">🐧</span>
+        <span class="tab-label">Linux Bash</span>
+      </button>
+      <button class="nav-tab" data-module="windows-term">
+        <span class="tab-icon">🪟</span>
+        <span class="tab-label">Windows CMD / PS</span>
+      </button>
+      <button class="nav-tab" data-module="web-studio">
+        <span class="tab-icon">🌐</span>
+        <span class="tab-label">Web Studio</span>
+      </button>
+      <button class="nav-tab" data-module="sim-recog">
+        <span class="tab-icon">🔍</span>
+        <span class="tab-label">1. Reconocimiento</span>
+      </button>
+      <button class="nav-tab" data-module="sim-place">
+        <span class="tab-icon">🧩</span>
+        <span class="tab-label">2. Montaje en su Lugar</span>
+      </button>
+      <button class="nav-tab" data-module="sim-upgrade">
+        <span class="tab-icon">🔄</span>
+        <span class="tab-label">3. Upgrades y Reemplazo</span>
+      </button>
+      <button class="nav-tab" data-module="sim-clean">
+        <span class="tab-icon">🧽</span>
+        <span class="tab-label">4. Limpieza y Mantenimiento</span>
+      </button>
+    </nav>
+
+    <!-- Herramientas globales -->
+    <div class="header-actions">
+      <button class="icon-btn" id="btnFullscreen" title="Pantalla Completa" aria-label="Pantalla completa">
+        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+          <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+        </svg>
+      </button>
+      <button class="icon-btn" id="btnHelpModal" title="Ayuda y Atajos" aria-label="Ayuda">
+        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+          <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Contenedor Principal de Vistas -->
+  <main class="app-main" id="appMain">
+
+    <!-- ============================================== -->
+    <!-- MÓDULO 1: SIMULADOR DE VS CODE (Multi-lenguaje) -->
+    <!-- ============================================== -->
+    <section class="module-view active" id="view-vscode">
+      <div class="vscode-wrapper">
+        <!-- Barra de Actividad Izquierda -->
+        <div class="vs-activitybar">
+          <button class="vs-act-btn active" data-panel="explorer" title="Explorador de Archivos">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/>
+            </svg>
+          </button>
+          <button class="vs-act-btn" data-panel="search" title="Buscar en archivos">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </button>
+          <button class="vs-act-btn" data-panel="run" title="Ejecución y Depuración">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+          </button>
+          <button class="vs-act-btn" data-panel="templates" title="Plantillas de código">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </button>
+          <div class="vs-act-spacer"></div>
+          <button class="vs-act-btn" id="vsBtnSettings" title="Configuración">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Panel Lateral Primario -->
+        <aside class="vs-sidebar" id="vsSidebar">
+          <div class="vs-sidebar-header">
+            <span class="vs-sidebar-title" id="vsSidebarTitle">EXPLORADOR</span>
+            <div class="vs-sidebar-actions">
+              <button class="vs-icon-btn" id="vsNewFileBtn" title="Nuevo archivo">+</button>
+              <button class="vs-icon-btn" id="vsToggleSidebarBtn" title="Ocultar panel">✕</button>
+            </div>
+          </div>
+          <div class="vs-sidebar-content" id="vsSidebarContent">
+            <!-- Arbol de archivos -->
+            <div class="file-tree-section">
+              <div class="tree-header">PROYECTO: MULTI-LANGUAGE</div>
+              <ul class="file-tree" id="vsFileTree">
+                <!-- Generado por JS -->
+              </ul>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Área de Trabajo Principal del Editor -->
+        <div class="vs-editor-area">
+          <!-- Pestañas de archivos abiertos -->
+          <div class="vs-tabs-bar" id="vsTabsBar">
+            <!-- Tabs generados dinámicamente -->
+          </div>
+
+          <!-- Barra de Acciones del Editor (Ejecutar, limpiar, info lenguaje) -->
+          <div class="vs-editor-toolbar">
+            <div class="vs-editor-breadcrumb" id="vsBreadcrumb">
+              <span>proyecto</span> &gt; <span class="active-file-name" id="vsBreadcrumbFile">main.py</span>
+            </div>
+            <div class="vs-toolbar-actions">
+              <button class="vs-action-btn primary" id="vsRunCodeBtn" title="Ejecutar Código (Ctrl+Enter)">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+                <span>Ejecutar</span>
+              </button>
+              <button class="vs-action-btn" id="vsFormatCodeBtn" title="Formatear Código">
+                <span>Formatear</span>
+              </button>
+              <button class="vs-action-btn" id="vsClearConsoleBtn" title="Limpiar Terminal">
+                <span>Limpiar Salida</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Contenedor del Editor con Números de Línea y Resaltado -->
+          <div class="vs-code-container">
+            <div class="vs-gutter" id="vsGutter"></div>
+            <div class="vs-code-wrapper">
+              <pre class="vs-highlight-layer" id="vsHighlightLayer" aria-hidden="true"><code></code></pre>
+              <textarea class="vs-textarea" id="vsTextarea" spellcheck="false" autocomplete="off" autocapitalize="off"></textarea>
+            </div>
+          </div>
+
+          <!-- Panel de Salida / Terminal Integrada Inferior -->
+          <div class="vs-bottom-panel" id="vsBottomPanel">
+            <div class="vs-panel-header">
+              <div class="vs-panel-tabs">
+                <button class="vs-panel-tab active" data-tab="terminal">TERMINAL INTEGRADA</button>
+                <button class="vs-panel-tab" data-tab="problems">PROBLEMAS (0)</button>
+                <button class="vs-panel-tab" data-tab="debug">DEBUG CONSOLE</button>
+              </div>
+              <div class="vs-panel-tools">
+                <button class="vs-icon-btn" id="vsToggleBottomPanel" title="Minimizar/Restaurar">▲</button>
+              </div>
+            </div>
+            <div class="vs-panel-body" id="vsPanelBody">
+              <div class="vs-terminal-output" id="vsTerminalOutput">
+                <div class="term-line info">Compilador & Runtime de VS Code Simulator listo.</div>
+                <div class="term-line info">Soporta: Python 3, C (GCC), C++ (G++), Java (OpenJDK), JavaScript (NodeJS).</div>
+                <div class="term-line dim">Presiona "Ejecutar" o Ctrl+Enter para compilar y correr el código.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Barra de Estado Inferior de VS Code -->
+          <footer class="vs-statusbar">
+            <div class="vs-status-left">
+              <span class="status-item"><span class="git-icon">⎇</span> main*</span>
+              <span class="status-item" id="vsStatusErrors">⊗ 0  ⚠ 0</span>
+            </div>
+            <div class="vs-status-right">
+              <span class="status-item" id="vsStatusCursor">Ln 1, Col 1</span>
+              <span class="status-item">UTF-8</span>
+              <span class="status-item" id="vsStatusLang">Python</span>
+            </div>
+          </footer>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- MÓDULO 2: SIMULADOR DE TERMINAL LINUX (Bash)   -->
+    <!-- ============================================== -->
+    <section class="module-view" id="view-linux-term">
+      <div class="terminal-container linux-theme">
+        <div class="term-window-bar">
+          <div class="term-window-dots">
+            <span class="dot close"></span>
+            <span class="dot min"></span>
+            <span class="dot max"></span>
+          </div>
+          <div class="term-window-title">bash — user@linux-vm: ~ (Ubuntu 24.04 LTS x86_64)</div>
+          <div class="term-window-actions">
+            <button class="term-bar-btn" id="btnLinuxFsReset" title="Reiniciar Sistema de Archivos">Reset FS</button>
+            <button class="term-bar-btn" id="btnLinuxClear" title="Limpiar Pantalla (Ctrl+L)">Clear</button>
+          </div>
+        </div>
+
+        <div class="term-screen" id="linuxTermScreen" tabindex="0">
+          <div class="term-history" id="linuxTermHistory">
+            <div class="term-banner">
+Linux linux-vm 6.8.0-generic #1 SMP PREEMPT_DYNAMIC x86_64 GNU/Linux
+Welcome to Linux Terminal Simulator!
+Type <span class="hl-cyan">'help'</span> to see available commands or try <span class="hl-green">'neofetch'</span>, <span class="hl-yellow">'ls -la'</span>, <span class="hl-cyan">'python3'</span>, <span class="hl-green">'cat /etc/os-release'</span>.
+            </div>
+          </div>
+          <div class="term-prompt-line">
+            <span class="linux-prompt" id="linuxPromptText"><span class="user">user@linux-vm</span>:<span class="path">~</span>$ </span>
+            <div class="term-input-container">
+              <input type="text" class="term-input" id="linuxTermInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            </div>
+          </div>
+        </div>
+
+        <!-- Teclado de atajos móviles para terminal -->
+        <div class="mobile-term-bar">
+          <button class="mob-key" data-key="Tab">Tab ⇥</button>
+          <button class="mob-key" data-key="ArrowUp">↑</button>
+          <button class="mob-key" data-key="ArrowDown">↓</button>
+          <button class="mob-key" data-cmd="clear">clear</button>
+          <button class="mob-key" data-cmd="ls -la">ls -la</button>
+          <button class="mob-key" data-cmd="pwd">pwd</button>
+          <button class="mob-key" data-cmd="help">help</button>
+          <button class="mob-key" data-key="CtrlC">Ctrl+C</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- MÓDULO 3: SIMULADOR DE TERMINAL WINDOWS (CMD / PS) -->
+    <!-- ============================================== -->
+    <section class="module-view" id="view-windows-term">
+      <div class="terminal-container win-theme">
+        <div class="term-window-bar win-bar">
+          <div class="win-tabs">
+            <button class="win-tab-btn active" data-shell="ps">
+              <span class="ps-icon">PS</span> Windows PowerShell
+            </button>
+            <button class="win-tab-btn" data-shell="cmd">
+              <span class="cmd-icon">C:\</span> Símbolo del sistema
+            </button>
+          </div>
+          <div class="win-window-controls">
+            <span class="win-control min">—</span>
+            <span class="win-control max">◻</span>
+            <span class="win-control close">✕</span>
+          </div>
+        </div>
+
+        <div class="term-screen win-screen" id="winTermScreen" tabindex="0">
+          <div class="term-history" id="winTermHistory">
+            <!-- Banner inicial Windows -->
+            <div class="term-banner win-banner" id="winBannerText">
+Windows PowerShell
+Copyright (C) Microsoft Corporation. Todos los derechos reservados.
+
+Instale la versión más reciente de PowerShell para nuevas características y mejoras.
+Escriba <span class="hl-yellow">'help'</span>, <span class="hl-cyan">'Get-Process'</span>, <span class="hl-green">'dir'</span>, <span class="hl-yellow">'systeminfo'</span> o <span class="hl-cyan">'ipconfig'</span>.
+            </div>
+          </div>
+          <div class="term-prompt-line">
+            <span class="win-prompt" id="winPromptText">PS C:\Users\User&gt; </span>
+            <div class="term-input-container">
+              <input type="text" class="term-input win-input" id="winTermInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            </div>
+          </div>
+        </div>
+
+        <!-- Teclado de atajos móviles para Windows -->
+        <div class="mobile-term-bar win-mobile-bar">
+          <button class="mob-key" data-key="Tab">Tab ⇥</button>
+          <button class="mob-key" data-key="ArrowUp">↑</button>
+          <button class="mob-key" data-key="ArrowDown">↓</button>
+          <button class="mob-key" data-wincmd="cls">cls</button>
+          <button class="mob-key" data-wincmd="dir">dir</button>
+          <button class="mob-key" data-wincmd="systeminfo">sysinfo</button>
+          <button class="mob-key" data-wincmd="ipconfig">ipconfig</button>
+          <button class="mob-key" data-wincmd="help">help</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- MÓDULO 4: WEB STUDIO (HTML, CSS & JS LIVE PREVIEW) -->
+    <!-- ============================================== -->
+    <section class="module-view" id="view-web-studio">
+      <div class="web-studio-wrapper">
+        <!-- Barra de herramientas superior de Web Studio -->
+        <div class="web-toolbar">
+          <div class="web-tool-group">
+            <span class="web-badge">WEB DEV LIVE</span>
+            <button class="web-btn active" data-tab="html">HTML</button>
+            <button class="web-btn" data-tab="css">CSS</button>
+            <button class="web-btn" data-tab="js">JavaScript</button>
+            <button class="web-btn" data-tab="split">Todo en paralelo</button>
+          </div>
+
+          <div class="web-tool-group presets">
+            <label class="select-label" for="webTemplateSelect">Ejemplos:</label>
+            <select class="web-select" id="webTemplateSelect">
+              <option value="portfolio">Portafolio Moderno Neumórfico</option>
+              <option value="calculator">Calculadora Interactiva Neón</option>
+              <option value="cardgame">Juego Interactivo de Memoria</option>
+              <option value="landing">Landing Page SaaS Responsiva</option>
+              <option value="blank">Página en Blanco</option>
+            </select>
+          </div>
+
+          <div class="web-tool-group preview-devices">
+            <button class="device-btn active" data-device="responsive" title="Pantalla completa / Flexible">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              <span>Auto</span>
+            </button>
+            <button class="device-btn" data-device="mobile" title="Simular Smartphone (375px)">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+              <span>Móvil</span>
+            </button>
+            <button class="device-btn" data-device="tablet" title="Simular Tablet (768px)">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+              <span>Tablet</span>
+            </button>
+            <button class="device-btn" id="btnRefreshPreview" title="Recargar vista previa">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Contenedor Dividido: Editores a la izquierda/arriba, Vista previa a la derecha/abajo -->
+        <div class="web-workspace" id="webWorkspace">
+          <!-- Zona de Editores -->
+          <div class="web-editors-pane" id="webEditorsPane">
+            <!-- Editor HTML -->
+            <div class="code-box active" id="box-html">
+              <div class="code-box-header">
+                <span class="lang-tag html-tag">&lt;/&gt; index.html</span>
+                <span class="code-box-info">Estructura DOM</span>
+              </div>
+              <textarea class="web-code-area" id="htmlEditor" spellcheck="false" autocapitalize="off"></textarea>
+            </div>
+
+            <!-- Editor CSS -->
+            <div class="code-box" id="box-css">
+              <div class="code-box-header">
+                <span class="lang-tag css-tag">{ # } styles.css</span>
+                <span class="code-box-info">Estilos y Animaciones</span>
+              </div>
+              <textarea class="web-code-area" id="cssEditor" spellcheck="false" autocapitalize="off"></textarea>
+            </div>
+
+            <!-- Editor JS -->
+            <div class="code-box" id="box-js">
+              <div class="code-box-header">
+                <span class="lang-tag js-tag">( ) script.js</span>
+                <span class="code-box-info">Interactividad y Lógica</span>
+              </div>
+              <textarea class="web-code-area" id="jsEditor" spellcheck="false" autocapitalize="off"></textarea>
+            </div>
+          </div>
+
+          <!-- Divisor arrastrable -->
+          <div class="web-resizer" id="webResizer" title="Arrastra para ajustar tamaños"></div>
+
+          <!-- Zona de Vista Previa en Vivo -->
+          <div class="web-preview-pane" id="webPreviewPane">
+            <div class="preview-browser-frame" id="previewDeviceFrame">
+              <div class="browser-address-bar">
+                <div class="browser-traffic-lights">
+                  <span></span><span></span><span></span>
+                </div>
+                <div class="browser-url-input">
+                  <span class="ssl-lock">🔒</span> https://mi-web-app.local/
+                </div>
+                <div class="browser-badge" id="previewDimensionBadge">100%</div>
+              </div>
+              <iframe id="webPreviewFrame" sandbox="allow-scripts allow-modals allow-same-origin" title="Vista previa en vivo de tu diseño web"></iframe>
+            </div>
+
+            <!-- Consola de la página web simulada -->
+            <div class="web-console-drawer" id="webConsoleDrawer">
+              <div class="web-console-header">
+                <span>Consola del Navegador</span>
+                <button class="web-console-clear" id="webConsoleClear">Limpiar</button>
+              </div>
+              <div class="web-console-logs" id="webConsoleLogs">
+                <div class="c-log info">Consola web conectada con éxito.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- MÓDULO 5: SIMULADOR 1 - RECONOCIMIENTO DE COMPONENTES -->
+    <!-- ============================================== -->
+    <section class="module-view" id="view-sim-recog">
+      <div class="hw-sim-container">
+        <!-- Topbar -->
+        <div class="hw-sim-topbar">
+          <div class="hw-sim-title-box">
+            <span class="hw-sim-badge badge-recog">SIMULADOR 1: RECONOCIMIENTO</span>
+            <span class="hw-sim-title">Anatomía, Zócalos, Funciones y Arquitectura</span>
+          </div>
+          <div class="hw-sim-controls">
+            <button class="recog-cat-filter hw-btn-mode active" data-cat="all">Todos</button>
+            <button class="recog-cat-filter hw-btn-mode" data-cat="pc">PC Escritorio</button>
+            <button class="recog-cat-filter hw-btn-mode" data-cat="laptop">Notebook</button>
+            <div style="width:1px;height:20px;background:rgba(255,255,255,0.1);margin:0 4px;"></div>
+            <button class="hw-btn-mode active" id="btnModeExplore">🔍 Exploración &amp; Hotspots</button>
+            <button class="hw-btn-mode" id="btnModeQuiz">📝 Test de Diagnóstico</button>
+          </div>
+        </div>
+
+        <!-- Three-column workspace -->
+        <div class="hw-workspace">
+          <!-- LEFT: component catalogue rail -->
+          <aside class="hw-parts-rail recog-sidebar">
+            <div class="hw-rail-heading">Componentes Disponibles</div>
+            <div class="recog-catalog-list" id="recogCatalogList"></div>
+          </aside>
+
+          <!-- CENTER: 3-D inspection stage -->
+          <div class="hw-stage-area recog-viewport">
+            <div class="recog-stage-card comp-3d-stage">
+              <!-- corner accent brackets -->
+              <span class="stage-corner-tl"></span>
+              <span class="stage-corner-tr"></span>
+              <span class="stage-corner-bl"></span>
+              <span class="stage-corner-br"></span>
+
+              <!-- Component visual box with 3D model -->
+              <div class="recog-visual-box" id="recogVisualBox">
+                <div class="scanline-overlay"></div>
+                <div class="comp-3d-model comp-float" id="recogCompIcon">
+                  <!-- Inline SVG: default motherboard art -->
+                  <svg class="svg-motherboard comp-display-svg" viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <linearGradient id="pcbGrad" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#1a3d1a"/>
+                        <stop offset="100%" stop-color="#0e2010"/>
+                      </linearGradient>
+                      <linearGradient id="cpuIhsGrad" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#c8c8c8"/>
+                        <stop offset="40%" stop-color="#e8e8e8"/>
+                        <stop offset="100%" stop-color="#8a8a8a"/>
+                      </linearGradient>
+                      <linearGradient id="ramGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#1e293b"/>
+                        <stop offset="50%" stop-color="#0f172a"/>
+                        <stop offset="100%" stop-color="#1e293b"/>
+                      </linearGradient>
+                      <linearGradient id="heatsinkGrad" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#4a5568"/>
+                        <stop offset="100%" stop-color="#2d3748"/>
+                      </linearGradient>
+                    </defs>
+
+                    <!-- PCB base -->
+                    <rect x="2" y="2" width="316" height="216" rx="6" ry="6" fill="url(#pcbGrad)" stroke="#234d2e" stroke-width="1.5"/>
+
+                    <!-- PCB grid traces -->
+                    <line x1="0" y1="40" x2="320" y2="40" class="pcb-trace"/>
+                    <line x1="0" y1="80" x2="320" y2="80" class="pcb-trace"/>
+                    <line x1="0" y1="120" x2="320" y2="120" class="pcb-trace"/>
+                    <line x1="0" y1="160" x2="320" y2="160" class="pcb-trace"/>
+                    <line x1="40" y1="0" x2="40" y2="220" class="pcb-trace"/>
+                    <line x1="100" y1="0" x2="100" y2="220" class="pcb-trace"/>
+                    <line x1="160" y1="0" x2="160" y2="220" class="pcb-trace"/>
+                    <line x1="220" y1="0" x2="220" y2="220" class="pcb-trace"/>
+                    <line x1="280" y1="0" x2="280" y2="220" class="pcb-trace"/>
+
+                    <!-- PCB vias -->
+                    <circle cx="40" cy="40" r="2" class="pcb-via"/>
+                    <circle cx="100" cy="40" r="2" class="pcb-via"/>
+                    <circle cx="160" cy="40" r="2" class="pcb-via"/>
+                    <circle cx="220" cy="80" r="2" class="pcb-via"/>
+                    <circle cx="280" cy="120" r="2" class="pcb-via"/>
+                    <circle cx="40" cy="160" r="2" class="pcb-via"/>
+                    <circle cx="160" cy="160" r="2" class="pcb-via"/>
+
+                    <!-- CPU socket (LGA) -->
+                    <rect x="30" y="22" width="80" height="80" rx="3" fill="#0a1a0a" stroke="#c8a000" stroke-width="1.2"/>
+                    <!-- Pin grid -->
+                    <rect x="34" y="26" width="72" height="72" rx="2" fill="none" stroke="#c8a000" stroke-width="0.6"/>
+                    <text x="70" y="68" class="svg-label" text-anchor="middle" fill="rgba(200,160,0,0.6)" font-size="6">LGA1851</text>
+                    <!-- Pin dots -->
+                    <g fill="rgba(200,160,0,0.4)">
+                      <rect x="38" y="30" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="43" y="30" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="48" y="30" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="53" y="30" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="58" y="30" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="63" y="30" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="68" y="30" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="73" y="30" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="78" y="30" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="83" y="30" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="88" y="30" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="93" y="30" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="38" y="36" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="43" y="36" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="48" y="36" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="53" y="36" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="58" y="36" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="63" y="36" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="68" y="36" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="73" y="36" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="78" y="36" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="83" y="36" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="88" y="36" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="93" y="36" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="38" y="42" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="43" y="42" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="48" y="42" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="53" y="42" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="58" y="42" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="63" y="42" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="68" y="42" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="73" y="42" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="78" y="42" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="83" y="42" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="88" y="42" width="1.5" height="1.5" rx="0.3"/>
+                      <rect x="93" y="42" width="1.5" height="1.5" rx="0.3"/>
+                    </g>
+                    <text x="70" y="110" class="svg-label-sm" text-anchor="middle" fill="rgba(255,255,255,0.3)">CPU SOCKET</text>
+
+                    <!-- VRM heatsink (above socket) -->
+                    <rect x="30" y="8" width="80" height="12" rx="2" fill="url(#heatsinkGrad)" stroke="#6a7898" stroke-width="0.8"/>
+                    <line x1="38" y1="8" x2="38" y2="20" stroke="rgba(255,255,255,0.1)" stroke-width="0.8"/>
+                    <line x1="46" y1="8" x2="46" y2="20" stroke="rgba(255,255,255,0.1)" stroke-width="0.8"/>
+                    <line x1="54" y1="8" x2="54" y2="20" stroke="rgba(255,255,255,0.1)" stroke-width="0.8"/>
+                    <line x1="62" y1="8" x2="62" y2="20" stroke="rgba(255,255,255,0.1)" stroke-width="0.8"/>
+                    <line x1="70" y1="8" x2="70" y2="20" stroke="rgba(255,255,255,0.1)" stroke-width="0.8"/>
+                    <line x1="78" y1="8" x2="78" y2="20" stroke="rgba(255,255,255,0.1)" stroke-width="0.8"/>
+                    <line x1="86" y1="8" x2="86" y2="20" stroke="rgba(255,255,255,0.1)" stroke-width="0.8"/>
+                    <line x1="94" y1="8" x2="94" y2="20" stroke="rgba(255,255,255,0.1)" stroke-width="0.8"/>
+                    <text x="70" y="16" class="svg-label-sm" text-anchor="middle" fill="rgba(255,255,255,0.4)">VRM</text>
+
+                    <!-- RAM slots (4x DDR5) -->
+                    <rect x="118" y="10" width="12" height="88" rx="1.5" fill="url(#ramGrad)" stroke="rgba(14,165,233,0.5)" stroke-width="0.8"/>
+                    <rect x="134" y="10" width="12" height="88" rx="1.5" fill="url(#ramGrad)" stroke="rgba(14,165,233,0.5)" stroke-width="0.8"/>
+                    <rect x="150" y="10" width="12" height="88" rx="1.5" fill="url(#ramGrad)" stroke="rgba(14,165,233,0.3)" stroke-width="0.8"/>
+                    <rect x="166" y="10" width="12" height="88" rx="1.5" fill="url(#ramGrad)" stroke="rgba(14,165,233,0.3)" stroke-width="0.8"/>
+                    <!-- RAM retention clips -->
+                    <rect x="116" y="8" width="4" height="4" rx="1" fill="rgba(255,255,255,0.2)"/>
+                    <rect x="116" y="96" width="4" height="4" rx="1" fill="rgba(255,255,255,0.2)"/>
+                    <rect x="132" y="8" width="4" height="4" rx="1" fill="rgba(255,255,255,0.2)"/>
+                    <rect x="132" y="96" width="4" height="4" rx="1" fill="rgba(255,255,255,0.2)"/>
+                    <text x="137" y="104" class="svg-label-sm" text-anchor="middle" fill="rgba(14,165,233,0.5)">DDR5</text>
+
+                    <!-- PCIe x16 slot -->
+                    <rect x="30" y="150" width="200" height="10" rx="1.5" fill="#0a0f18" stroke="rgba(234,179,8,0.6)" stroke-width="0.8"/>
+                    <line x1="30" y1="155" x2="230" y2="155" stroke="rgba(234,179,8,0.3)" stroke-width="0.5"/>
+                    <text x="130" y="145" class="svg-label-sm" text-anchor="middle" fill="rgba(234,179,8,0.5)">PCIe x16</text>
+
+                    <!-- PCIe x1 slot -->
+                    <rect x="30" y="170" width="80" height="8" rx="1.5" fill="#0a0f18" stroke="rgba(255,255,255,0.2)" stroke-width="0.6"/>
+                    <text x="70" y="166" class="svg-label-sm" text-anchor="middle" fill="rgba(255,255,255,0.3)">PCIe x1</text>
+
+                    <!-- M.2 slots -->
+                    <rect x="250" y="20" width="58" height="8" rx="1.5" fill="#0a1a0a" stroke="rgba(34,197,94,0.5)" stroke-width="0.8"/>
+                    <text x="279" y="34" class="svg-label-sm" text-anchor="middle" fill="rgba(34,197,94,0.5)">M.2 (1)</text>
+                    <rect x="250" y="45" width="58" height="8" rx="1.5" fill="#0a1a0a" stroke="rgba(34,197,94,0.5)" stroke-width="0.8"/>
+                    <text x="279" y="59" class="svg-label-sm" text-anchor="middle" fill="rgba(34,197,94,0.5)">M.2 (2)</text>
+
+                    <!-- Chipset heatsink -->
+                    <rect x="200" y="110" width="40" height="40" rx="3" fill="url(#heatsinkGrad)" stroke="#5a6a88" stroke-width="0.8"/>
+                    <line x1="207" y1="110" x2="207" y2="150" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
+                    <line x1="214" y1="110" x2="214" y2="150" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
+                    <line x1="221" y1="110" x2="221" y2="150" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
+                    <line x1="228" y1="110" x2="228" y2="150" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
+                    <line x1="235" y1="110" x2="235" y2="150" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
+                    <text x="220" y="134" class="svg-label-sm" text-anchor="middle" fill="rgba(255,255,255,0.3)">PCH</text>
+
+                    <!-- 24-pin ATX power -->
+                    <rect x="250" y="68" width="20" height="40" rx="2" fill="#1a1a2a" stroke="rgba(255,255,255,0.3)" stroke-width="0.8"/>
+                    <text x="260" y="92" class="svg-label-sm" text-anchor="middle" fill="rgba(255,255,255,0.3)" writing-mode="tb">24P</text>
+
+                    <!-- 8-pin EPS CPU power -->
+                    <rect x="8" y="8" width="18" height="12" rx="2" fill="#1a1a2a" stroke="rgba(255,255,255,0.25)" stroke-width="0.8"/>
+                    <text x="17" y="10" class="svg-label-sm" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="4">8P</text>
+
+                    <!-- SATA ports -->
+                    <rect x="250" y="130" width="8" height="22" rx="1" fill="#0a0f18" stroke="rgba(255,100,0,0.4)" stroke-width="0.6"/>
+                    <rect x="260" y="130" width="8" height="22" rx="1" fill="#0a0f18" stroke="rgba(255,100,0,0.4)" stroke-width="0.6"/>
+                    <rect x="270" y="130" width="8" height="22" rx="1" fill="#0a0f18" stroke="rgba(255,100,0,0.4)" stroke-width="0.6"/>
+                    <rect x="280" y="130" width="8" height="22" rx="1" fill="#0a0f18" stroke="rgba(255,100,0,0.4)" stroke-width="0.6"/>
+                    <text x="270" y="158" class="svg-label-sm" text-anchor="middle" fill="rgba(255,100,0,0.4)">SATA</text>
+
+                    <!-- I/O shield area -->
+                    <rect x="2" y="2" width="22" height="100" rx="2" fill="#1a1a2a" stroke="rgba(255,255,255,0.15)" stroke-width="0.8"/>
+                    <text x="13" y="55" class="svg-label-sm" text-anchor="middle" fill="rgba(255,255,255,0.3)" writing-mode="tb">I/O</text>
+
+                    <!-- USB / fan headers -->
+                    <rect x="30" y="188" width="14" height="8" rx="1" fill="#1a1a2a" stroke="rgba(14,165,233,0.4)" stroke-width="0.6"/>
+                    <rect x="48" y="188" width="14" height="8" rx="1" fill="#1a1a2a" stroke="rgba(14,165,233,0.4)" stroke-width="0.6"/>
+                    <rect x="66" y="188" width="14" height="8" rx="1" fill="#1a1a2a" stroke="rgba(255,255,255,0.2)" stroke-width="0.6"/>
+                    <text x="68" y="202" class="svg-label-sm" fill="rgba(14,165,233,0.4)" text-anchor="middle">USB / FAN HDR</text>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Details panel (below stage) -->
+              <div class="recog-details-panel" id="recogDetailsPanel">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <h3 id="recogTitle" style="color:#fff;font-size:15px;margin:0;font-weight:700;">Placa Base (Motherboard)</h3>
+                </div>
+                <p id="recogDesc" style="color:#cbd5e1;font-size:12px;margin:0;line-height:1.5;">Circuito impreso principal que interconecta todos los componentes del sistema.</p>
+                <div class="recog-prop-row">
+                  <span class="recog-prop-lbl">📍 Zócalo / Conexión:</span>
+                  <span class="recog-prop-val" id="recogSlot">Gabinete ATX / Chasis</span>
+                </div>
+                <div class="recog-prop-row">
+                  <span class="recog-prop-lbl">⚡ Voltaje / Alimentación:</span>
+                  <span class="recog-prop-val" id="recogVoltage">24 pines ATX + 8 pines EPS</span>
+                </div>
+                <div id="recogTipBox" style="background:rgba(14,165,233,0.1);border-left:3px solid #0ea5e9;padding:8px 10px;font-size:11px;color:#93c5fd;border-radius:4px;">
+                  Haz clic en los puntos interactivos numerados para inspeccionar la anatomía del componente.
+                </div>
+              </div>
+
+              <!-- Quiz area -->
+              <div id="recogQuizArea" style="display:none;width:100%;margin-top:14px;background:#1a1f2e;border:1px solid #2a3048;border-radius:10px;padding:16px;flex-direction:column;gap:10px;">
+                <h4 style="margin:0;color:#22d3ee;font-size:13px;font-weight:700;">Pregunta de Evaluación:</h4>
+                <div id="recogQuizQ" style="color:#fff;font-size:13px;font-weight:600;"></div>
+                <div class="quiz-options-grid" id="recogQuizOpts"></div>
+                <div id="recogQuizResult" style="font-size:12px;font-weight:700;margin-top:4px;"></div>
+              </div>
+            </div><!-- /recog-stage-card -->
+          </div><!-- /hw-stage-area -->
+        </div><!-- /hw-workspace -->
+      </div><!-- /hw-sim-container -->
+    </section>
+
+    <!-- ============================================== -->
+    <!-- MÓDULO 6: SIMULADOR 2 - MONTAJE EN SU LUGAR CORRESPONDIENTE -->
+    <!-- ============================================== -->
+    <section class="module-view" id="view-sim-place">
+      <div class="hw-sim-container">
+        <!-- Topbar -->
+        <div class="hw-sim-topbar">
+          <div class="hw-sim-title-box">
+            <span class="hw-sim-badge badge-place">SIMULADOR 2: MONTAJE EN SU LUGAR</span>
+            <span class="hw-sim-title">Ensamble Guiado con Validación Estricta de Ranuras</span>
+          </div>
+          <div class="hw-sim-controls">
+            <button class="hw-btn-mode active" id="btnPlaceDesktop">🖥️ PC Escritorio</button>
+            <button class="hw-btn-mode" id="btnPlaceNotebook">💻 Notebook CISCO</button>
+            <button class="hw-btn-mode" id="btnPlaceReset">🔄 Reiniciar Ranuras</button>
+          </div>
+        </div>
+
+        <div class="hw-workspace">
+          <!-- LEFT: draggable parts palette -->
+          <aside class="place-parts-palette">
+            <div class="hw-rail-heading">Piezas a Instalar</div>
+            <div id="placePalette"></div>
+          </aside>
+
+          <!-- CENTER: Chassis / motherboard stage -->
+          <div class="place-chassis-stage">
+            <div class="place-chassis-container">
+              <div class="chassis-header-bar">
+                <span id="placeMachineTitle" style="font-weight:700;font-size:13px;color:#fff;">Gabinete Gamer ATX (Montaje de Escritorio)</span>
+                <span style="font-size:11px;color:#6b7280;">Haz clic en la pieza y luego en su slot destino</span>
+              </div>
+
+              <!-- Status message -->
+              <div id="placeStatusMsg">
+                Selecciona una pieza de la paleta izquierda y haz clic en su ranura correspondiente para instalarla.
+              </div>
+
+              <!-- Desktop chassis slots — Inline motherboard SVG + slot overlays -->
+              <div class="chassis-motherboard" id="placeDesktopChassis">
+
+                <!-- CPU socket slot -->
+                <div class="slot-target-box" id="target_cpu">
+                  <div class="slot-ph">
+                    <!-- Mini SVG CPU socket -->
+                    <svg width="56" height="56" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:4px;">
+                      <rect x="2" y="2" width="52" height="52" rx="4" fill="#0a1a0a" stroke="rgba(234,179,8,0.6)" stroke-width="1.2"/>
+                      <rect x="8" y="8" width="40" height="40" rx="2" fill="none" stroke="rgba(234,179,8,0.4)" stroke-width="0.8"/>
+                      <g fill="rgba(234,179,8,0.5)">
+                        <rect x="10" y="10" width="2" height="2" rx="0.4"/><rect x="15" y="10" width="2" height="2" rx="0.4"/>
+                        <rect x="20" y="10" width="2" height="2" rx="0.4"/><rect x="25" y="10" width="2" height="2" rx="0.4"/>
+                        <rect x="30" y="10" width="2" height="2" rx="0.4"/><rect x="35" y="10" width="2" height="2" rx="0.4"/>
+                        <rect x="40" y="10" width="2" height="2" rx="0.4"/><rect x="44" y="10" width="2" height="2" rx="0.4"/>
+                        <rect x="10" y="16" width="2" height="2" rx="0.4"/><rect x="15" y="16" width="2" height="2" rx="0.4"/>
+                        <rect x="20" y="16" width="2" height="2" rx="0.4"/><rect x="25" y="16" width="2" height="2" rx="0.4"/>
+                        <rect x="30" y="16" width="2" height="2" rx="0.4"/><rect x="35" y="16" width="2" height="2" rx="0.4"/>
+                        <rect x="40" y="16" width="2" height="2" rx="0.4"/><rect x="44" y="16" width="2" height="2" rx="0.4"/>
+                        <rect x="10" y="22" width="2" height="2" rx="0.4"/><rect x="15" y="22" width="2" height="2" rx="0.4"/>
+                        <rect x="44" y="22" width="2" height="2" rx="0.4"/><rect x="10" y="28" width="2" height="2" rx="0.4"/>
+                        <rect x="44" y="28" width="2" height="2" rx="0.4"/><rect x="10" y="34" width="2" height="2" rx="0.4"/>
+                        <rect x="44" y="34" width="2" height="2" rx="0.4"/><rect x="10" y="40" width="2" height="2" rx="0.4"/>
+                        <rect x="15" y="40" width="2" height="2" rx="0.4"/><rect x="20" y="40" width="2" height="2" rx="0.4"/>
+                        <rect x="25" y="40" width="2" height="2" rx="0.4"/><rect x="30" y="40" width="2" height="2" rx="0.4"/>
+                        <rect x="35" y="40" width="2" height="2" rx="0.4"/><rect x="40" y="40" width="2" height="2" rx="0.4"/>
+                        <rect x="44" y="40" width="2" height="2" rx="0.4"/>
+                      </g>
+                    </svg>
+                    <span class="slot-label" style="color:#9ca3af;font-size:10px;font-weight:700;">Socket CPU LGA</span>
+                  </div>
+                  <div class="slot-content" style="display:none;">
+                    <span class="slot-icon">🔲</span>
+                    <span class="slot-label">CPU i9-14900K Instalado</span>
+                  </div>
+                </div>
+
+                <!-- Cooler slot -->
+                <div class="slot-target-box" id="target_cooler">
+                  <div class="slot-ph">
+                    <svg width="56" height="56" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:4px;">
+                      <circle cx="28" cy="28" r="24" fill="#0e1018" stroke="rgba(14,165,233,0.4)" stroke-width="1.2"/>
+                      <circle cx="28" cy="28" r="16" fill="none" stroke="rgba(14,165,233,0.25)" stroke-width="0.8"/>
+                      <circle cx="28" cy="28" r="6" fill="#1e2436" stroke="rgba(255,255,255,0.15)" stroke-width="0.8"/>
+                      <!-- Fan blades -->
+                      <path d="M28 12 Q32 20 28 22 Q24 20 28 12Z" fill="rgba(14,165,233,0.3)" stroke="rgba(14,165,233,0.5)" stroke-width="0.5"/>
+                      <path d="M44 28 Q36 32 34 28 Q36 24 44 28Z" fill="rgba(14,165,233,0.3)" stroke="rgba(14,165,233,0.5)" stroke-width="0.5"/>
+                      <path d="M28 44 Q24 36 28 34 Q32 36 28 44Z" fill="rgba(14,165,233,0.3)" stroke="rgba(14,165,233,0.5)" stroke-width="0.5"/>
+                      <path d="M12 28 Q20 24 22 28 Q20 32 12 28Z" fill="rgba(14,165,233,0.3)" stroke="rgba(14,165,233,0.5)" stroke-width="0.5"/>
+                    </svg>
+                    <span class="slot-label" style="color:#9ca3af;font-size:10px;font-weight:700;">Soporte Disipador</span>
+                  </div>
+                  <div class="slot-content" style="display:none;">
+                    <span class="slot-icon">❄️</span>
+                    <span class="slot-label">Disipador Líquido 360mm</span>
+                  </div>
+                </div>
+
+                <!-- RAM slot -->
+                <div class="slot-target-box" id="target_ram">
+                  <div class="slot-ph">
+                    <svg width="28" height="70" viewBox="0 0 28 70" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:4px;">
+                      <rect x="6" y="2" width="16" height="66" rx="2" fill="#0f172a" stroke="rgba(14,165,233,0.5)" stroke-width="1"/>
+                      <!-- retention clips -->
+                      <rect x="2" y="2" width="4" height="6" rx="1" fill="rgba(255,255,255,0.2)"/>
+                      <rect x="22" y="2" width="4" height="6" rx="1" fill="rgba(255,255,255,0.2)"/>
+                      <rect x="2" y="62" width="4" height="6" rx="1" fill="rgba(255,255,255,0.2)"/>
+                      <rect x="22" y="62" width="4" height="6" rx="1" fill="rgba(255,255,255,0.2)"/>
+                      <!-- connector pins -->
+                      <rect x="6" y="58" width="16" height="8" rx="1" fill="#1a1a2a"/>
+                      <line x1="8" y1="58" x2="8" y2="66" stroke="rgba(234,179,8,0.5)" stroke-width="0.6"/>
+                      <line x1="10" y1="58" x2="10" y2="66" stroke="rgba(234,179,8,0.5)" stroke-width="0.6"/>
+                      <line x1="12" y1="58" x2="12" y2="66" stroke="rgba(234,179,8,0.5)" stroke-width="0.6"/>
+                      <line x1="14" y1="58" x2="14" y2="66" stroke="rgba(234,179,8,0.5)" stroke-width="0.6"/>
+                      <line x1="16" y1="58" x2="16" y2="66" stroke="rgba(234,179,8,0.5)" stroke-width="0.6"/>
+                      <line x1="18" y1="58" x2="18" y2="66" stroke="rgba(234,179,8,0.5)" stroke-width="0.6"/>
+                      <line x1="20" y1="58" x2="20" y2="66" stroke="rgba(234,179,8,0.5)" stroke-width="0.6"/>
+                    </svg>
+                    <span class="slot-label" style="color:#9ca3af;font-size:10px;font-weight:700;">Ranuras RAM DIMM</span>
+                  </div>
+                  <div class="slot-content" style="display:none;">
+                    <span class="slot-icon">💾</span>
+                    <span class="slot-label">32GB DDR5 Instalada</span>
+                  </div>
+                </div>
+
+                <!-- GPU PCIe slot — spans 2 columns -->
+                <div class="slot-target-box" id="target_gpu" style="grid-column:span 2;">
+                  <div class="slot-ph">
+                    <!-- PCIe x16 slot mini SVG -->
+                    <svg width="140" height="20" viewBox="0 0 140 20" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:4px;">
+                      <rect x="1" y="4" width="138" height="12" rx="2" fill="#0a0f18" stroke="rgba(234,179,8,0.6)" stroke-width="0.8"/>
+                      <!-- Gold edge connector pins -->
+                      <g fill="rgba(234,179,8,0.6)">
+                        <rect x="4" y="4" width="2" height="12"/><rect x="8" y="4" width="2" height="12"/>
+                        <rect x="12" y="4" width="2" height="12"/><rect x="16" y="4" width="2" height="12"/>
+                        <rect x="20" y="4" width="2" height="12"/><rect x="24" y="4" width="2" height="12"/>
+                        <rect x="28" y="4" width="2" height="12"/><rect x="32" y="4" width="2" height="12"/>
+                        <rect x="36" y="4" width="2" height="12"/><rect x="40" y="4" width="2" height="12"/>
+                        <rect x="44" y="4" width="2" height="12"/><rect x="48" y="4" width="2" height="12"/>
+                        <rect x="52" y="4" width="2" height="12"/><rect x="56" y="4" width="2" height="12"/>
+                        <rect x="60" y="4" width="2" height="12"/><rect x="64" y="4" width="2" height="12"/>
+                        <rect x="68" y="4" width="2" height="12"/><rect x="72" y="4" width="2" height="12"/>
+                        <rect x="76" y="4" width="2" height="12"/><rect x="80" y="4" width="2" height="12"/>
+                        <rect x="84" y="4" width="2" height="12"/><rect x="88" y="4" width="2" height="12"/>
+                        <rect x="92" y="4" width="2" height="12"/><rect x="96" y="4" width="2" height="12"/>
+                        <rect x="100" y="4" width="2" height="12"/><rect x="104" y="4" width="2" height="12"/>
+                        <rect x="108" y="4" width="2" height="12"/><rect x="112" y="4" width="2" height="12"/>
+                        <rect x="116" y="4" width="2" height="12"/><rect x="120" y="4" width="2" height="12"/>
+                        <rect x="124" y="4" width="2" height="12"/><rect x="128" y="4" width="2" height="12"/>
+                        <rect x="132" y="4" width="2" height="12"/>
+                      </g>
+                      <text x="70" y="2.5" fill="rgba(234,179,8,0.5)" font-size="4" text-anchor="middle" font-family="monospace">PCIe 5.0 x16</text>
+                    </svg>
+                    <span class="slot-label" style="color:#9ca3af;font-size:10px;font-weight:700;">Ranura PCIe 5.0 x16 (GPU)</span>
+                  </div>
+                  <div class="slot-content" style="display:none;">
+                    <span class="slot-icon">🎮</span>
+                    <span class="slot-label">RTX 4080 Super Montada</span>
+                  </div>
+                </div>
+
+                <!-- M.2 slot -->
+                <div class="slot-target-box" id="target_m2">
+                  <div class="slot-ph">
+                    <svg width="80" height="16" viewBox="0 0 80 16" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:4px;">
+                      <rect x="1" y="3" width="78" height="10" rx="1.5" fill="#0a1a0a" stroke="rgba(34,197,94,0.5)" stroke-width="0.8"/>
+                      <g fill="rgba(34,197,94,0.5)">
+                        <rect x="4" y="3" width="1.5" height="10"/><rect x="7" y="3" width="1.5" height="10"/>
+                        <rect x="10" y="3" width="1.5" height="10"/><rect x="13" y="3" width="1.5" height="10"/>
+                        <rect x="16" y="3" width="1.5" height="10"/><rect x="19" y="3" width="1.5" height="10"/>
+                        <rect x="22" y="3" width="1.5" height="10"/><rect x="25" y="3" width="1.5" height="10"/>
+                      </g>
+                      <text x="52" y="10" fill="rgba(34,197,94,0.5)" font-size="5" text-anchor="middle" font-family="monospace">M.2 PCIe NVMe</text>
+                    </svg>
+                    <span class="slot-label" style="color:#9ca3af;font-size:10px;font-weight:700;">Zócalo M.2 PCIe</span>
+                  </div>
+                  <div class="slot-content" style="display:none;">
+                    <span class="slot-icon">⚡</span>
+                    <span class="slot-label">SSD 990 Pro 2TB M.2</span>
+                  </div>
+                </div>
+
+                <!-- PSU slot -->
+                <div class="slot-target-box" id="target_psu">
+                  <div class="slot-ph">
+                    <svg width="56" height="40" viewBox="0 0 56 40" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:4px;">
+                      <rect x="2" y="2" width="52" height="36" rx="3" fill="#0a0a14" stroke="rgba(249,115,22,0.4)" stroke-width="1"/>
+                      <!-- fan circle -->
+                      <circle cx="20" cy="20" r="12" fill="#0d0d1a" stroke="rgba(249,115,22,0.3)" stroke-width="0.8"/>
+                      <circle cx="20" cy="20" r="5" fill="#1a1a2a"/>
+                      <!-- power connectors -->
+                      <rect x="36" y="8" width="14" height="6" rx="1" fill="#1a1a2a" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
+                      <rect x="36" y="17" width="14" height="6" rx="1" fill="#1a1a2a" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
+                      <rect x="36" y="26" width="14" height="6" rx="1" fill="#1a1a2a" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
+                    </svg>
+                    <span class="slot-label" style="color:#9ca3af;font-size:10px;font-weight:700;">Bahía Fuente de Poder</span>
+                  </div>
+                  <div class="slot-content" style="display:none;">
+                    <span class="slot-icon">🔌</span>
+                    <span class="slot-label">Fuente Corsair 850W Gold</span>
+                  </div>
+                </div>
+
+              </div><!-- /chassis-motherboard -->
+
+              <!-- Notebook chassis (hidden by default) -->
+              <div class="notebook-board" id="placeNotebookChassis" style="display:none;">
+                <div class="slot-target-box" id="target_lap_battery">
+                  <div class="slot-ph"><span class="slot-icon">🔋</span><span class="slot-label">Bahía de Batería (Pestillos Lock)</span></div>
+                  <div class="slot-content" style="display:none;"><span class="slot-icon">🔋</span><span class="slot-label">Batería Li-Ion 5200mAh Trancada</span></div>
+                </div>
+                <div class="slot-target-box" id="target_lap_sodimm">
+                  <div class="slot-ph"><span class="slot-icon">💾</span><span class="slot-label">Ranura SO-DIMM (Ángulo 45°)</span></div>
+                  <div class="slot-content" style="display:none;"><span class="slot-icon">💾</span><span class="slot-label">SO-DIMM 16GB Trancada a Presión</span></div>
+                </div>
+                <div class="slot-target-box" id="target_lap_caddy">
+                  <div class="slot-ph"><span class="slot-icon">💿</span><span class="slot-label">Bahía 2.5" SATA (Caddy HDD/SSD)</span></div>
+                  <div class="slot-content" style="display:none;"><span class="slot-icon">💿</span><span class="slot-label">SSD 2.5" SATA Atornillado</span></div>
+                </div>
+                <div class="slot-target-box" id="target_lap_cooling">
+                  <div class="slot-ph"><span class="slot-icon">🌀</span><span class="slot-label">Circuito Térmico Heatpipe &amp; Turbina</span></div>
+                  <div class="slot-content" style="display:none;"><span class="slot-icon">🌀</span><span class="slot-label">Heatpipe Cobre Cruzado Fijo</span></div>
+                </div>
+                <div class="slot-target-box" id="target_lap_optical">
+                  <div class="slot-ph"><span class="slot-icon">📀</span><span class="slot-label">Bahía de Unidad Óptica Slim</span></div>
+                  <div class="slot-content" style="display:none;"><span class="slot-icon">📀</span><span class="slot-label">Lectora DVD-RW Deslizada y Trancada</span></div>
+                </div>
+              </div><!-- /placeNotebookChassis -->
+
+            </div><!-- /place-chassis-container -->
+          </div><!-- /place-chassis-stage -->
+        </div><!-- /hw-workspace -->
+      </div><!-- /hw-sim-container -->
+    </section>
+
+    <!-- ============================================== -->
+    <!-- MÓDULO 7: SIMULADOR 3 - UPGRADES Y REEMPLAZO DE COMPONENTES VIEJOS -->
+    <!-- ============================================== -->
+    <section class="module-view" id="view-sim-upgrade">
+      <div class="hw-sim-container">
+        <div class="hw-sim-topbar">
+          <div class="hw-sim-title-box">
+            <span class="hw-sim-badge badge-upgrade">SIMULADOR 3: UPGRADES Y REEMPLAZO</span>
+            <span class="hw-sim-title">Reemplazo de Componentes Obsoletos y Benchmarks en Tiempo Real</span>
+          </div>
+          <div class="hw-sim-controls">
+            <button class="hw-btn-mode active" id="btnUpCaseDesktop">🖥️ Caso 1: Upgrade PC Gamer</button>
+            <button class="hw-btn-mode" id="btnUpCaseLaptop">💻 Caso 2: Upgrade Laptop Lenta</button>
+          </div>
+        </div>
+
+        <div class="hw-workspace">
+          <!-- LEFT: client ticket + benchmarks -->
+          <aside class="upgrade-client-panel">
+            <div class="client-ticket">
+              <div class="client-avatar">
+                <span style="font-size:28px;">👤</span>
+                <span id="upClientName">Marcos R. (Gamer)</span>
+              </div>
+              <div class="client-dialogue" id="upClientMsg">
+                Mi PC tarda 3 minutos en prender, los juegos van a tirones (22 FPS) y el disco duro hace un ruido insoportable.
+              </div>
+            </div>
+
+            <div style="font-size:10px;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:1px;">Objetivos del Upgrade:</div>
+            <ul id="upTasksList" style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;"></ul>
+
+            <div class="upgrade-benchmark-box">
+              <div style="font-weight:800;font-size:11.5px;color:#fff;margin-bottom:2px;display:flex;align-items:center;gap:6px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#f97316"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                Rendimiento del Sistema
+              </div>
+
+              <div class="bench-bar-group">
+                <div class="bench-lbl-row">
+                  <span style="color:#9ca3af;">FPS en Juego:</span>
+                  <span style="color:#22c55e;font-weight:800;" id="benchFpsVal">22 FPS</span>
+                </div>
+                <div class="bench-progress"><div class="bench-fill-new" id="benchFpsBar" style="width:15%;"></div></div>
+              </div>
+
+              <div class="bench-bar-group">
+                <div class="bench-lbl-row">
+                  <span style="color:#9ca3af;">Tiempo de Arranque:</span>
+                  <span style="color:#f97316;font-weight:800;" id="benchBootVal">180s</span>
+                </div>
+                <div class="bench-progress"><div class="bench-fill-old" id="benchBootBar" style="width:10%;"></div></div>
+              </div>
+
+              <div class="bench-bar-group">
+                <div class="bench-lbl-row">
+                  <span style="color:#9ca3af;">Memoria RAM:</span>
+                  <span style="color:#0ea5e9;font-weight:800;" id="benchRamVal">8 GB</span>
+                </div>
+                <div class="bench-progress"><div class="bench-fill-new" id="benchRamBar" style="width:25%;"></div></div>
+              </div>
+            </div>
+          </aside>
+
+          <!-- CENTER + RIGHT: machine slots vs new parts store -->
+          <div class="upgrade-bench-area">
+            <div class="machine-side">
+              <h4 style="margin:0 0 2px;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:space-between;">
+                <span>⚙️ Componentes Instalados</span>
+                <span style="font-size:9.5px;color:#fca5a5;font-weight:800;background:rgba(239,68,68,0.15);padding:2px 8px;border-radius:3px;border:1px solid rgba(239,68,68,0.3);">① DESMONTA LA PIEZA VIEJA</span>
+              </h4>
+              <div id="upMachineSlotArea" style="display:flex;flex-direction:column;gap:10px;overflow-y:auto;flex:1;"></div>
+            </div>
+
+            <div class="store-side">
+              <h4 style="margin:0 0 2px;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:space-between;">
+                <span>🛒 Repuestos Nuevos</span>
+                <span style="font-size:9.5px;color:#86efac;font-weight:800;background:rgba(34,197,94,0.15);padding:2px 8px;border-radius:3px;border:1px solid rgba(34,197,94,0.3);">② INSTALA EL REPUESTO</span>
+              </h4>
+              <div id="upStoreList" style="display:flex;flex-direction:column;gap:10px;overflow-y:auto;flex:1;"></div>
+            </div>
+          </div>
+        </div><!-- /hw-workspace -->
+      </div><!-- /hw-sim-container -->
+    </section>
+
+    <!-- ============================================== -->
+    <!-- MÓDULO 8: SIMULADOR 4 - LIMPIEZA Y MANTENIMIENTO TÉCNICO -->
+    <!-- ============================================== -->
+    <section class="module-view" id="view-sim-clean">
+      <div class="hw-sim-container">
+        <!-- Topbar with meters -->
+        <div class="hw-sim-topbar">
+          <div class="hw-sim-title-box">
+            <span class="hw-sim-badge badge-clean">SIMULADOR 4: LIMPIEZA &amp; MANTENIMIENTO</span>
+            <span class="hw-sim-title">Aire Comprimido, Brocha, Alcohol Isopropílico y Pasta Térmica</span>
+          </div>
+          <div class="clean-stats-row">
+            <div class="clean-meter-box">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="#f97316"><path d="M12 2a9 9 0 1 0 0 18A9 9 0 0 0 12 2z"/></svg>
+              <span style="color:#9ca3af;font-size:11px;">Polvo:</span>
+              <span class="clean-meter-val" id="maintDustVal">100% (Muy Sucio)</span>
+            </div>
+            <div class="clean-meter-box">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="#ef4444"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/></svg>
+              <span style="color:#9ca3af;font-size:11px;">Temp. CPU:</span>
+              <span class="clean-meter-val" id="maintTempVal">95°C (Recalentado)</span>
+            </div>
+            <div class="clean-meter-box">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="#a855f7"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+              <span style="color:#9ca3af;font-size:11px;">Ruido Turbina:</span>
+              <span class="clean-meter-val" id="maintNoiseVal">58 dB</span>
+            </div>
+            <button class="hw-btn-mode" id="btnMaintReset">🔄 Reiniciar Suciedad</button>
+          </div>
+        </div>
+
+        <!-- Tool toolbar -->
+        <div class="clean-toolkit-bar">
+          <span style="font-size:10px;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:1px;margin-right:4px;white-space:nowrap;">Herramientas:</span>
+          <button class="clean-tool-btn active" data-tool="blower">
+            <span>💨</span> <span>1. Aire Comprimido (Ventiladores)</span>
+          </button>
+          <button class="clean-tool-btn" data-tool="brush">
+            <span>🖌️</span> <span>2. Brocha Antiestática (Placa &amp; Ranuras)</span>
+          </button>
+          <button class="clean-tool-btn" data-tool="screwdriver">
+            <span>🪛</span> <span>3. Destornillador (Quitar Disipador)</span>
+          </button>
+          <button class="clean-tool-btn" data-tool="alcohol">
+            <span>🧽</span> <span>4. Alcohol Isopropílico 99.9% (Pasta Seca)</span>
+          </button>
+          <button class="clean-tool-btn" data-tool="paste">
+            <span>🧴</span> <span>5. Pasta Térmica Nueva (Jeringa)</span>
+          </button>
+        </div>
+
+        <!-- Status bar -->
+        <div style="background:rgba(14,165,233,0.06);border-bottom:1px solid rgba(14,165,233,0.15);padding:7px 18px;font-size:11.5px;color:#93c5fd;flex-shrink:0;" id="maintStatusText">
+          Herramienta activa: Lata de Aire Comprimido. Haz clic sobre los ventiladores para soplar y expulsar el polvo.
+        </div>
+
+        <!-- Maintenance canvas -->
+        <div class="clean-canvas-workspace" id="maintCanvasArea">
+          <!-- Air blower FX -->
+          <div class="air-blower-fx" id="maintAirBlowerFx" style="display:none;"></div>
+
+          <!-- Animated dirty motherboard stage -->
+          <div class="maint-board-stage">
+
+            <!-- Dust overlay -->
+            <div class="maint-dust-overlay" id="maintDustOverlay" title="Haz clic con la brocha para barrer el polvo"></div>
+
+            <!-- Inline SVG motherboard art for maintenance board -->
+            <svg style="position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;" viewBox="0 0 640 420" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+              <!-- PCB traces (green) -->
+              <line x1="0" y1="80" x2="640" y2="80" stroke="rgba(50,160,70,0.15)" stroke-width="1"/>
+              <line x1="0" y1="160" x2="640" y2="160" stroke="rgba(50,160,70,0.15)" stroke-width="1"/>
+              <line x1="0" y1="240" x2="640" y2="240" stroke="rgba(50,160,70,0.15)" stroke-width="1"/>
+              <line x1="0" y1="320" x2="640" y2="320" stroke="rgba(50,160,70,0.15)" stroke-width="1"/>
+              <line x1="80" y1="0" x2="80" y2="420" stroke="rgba(50,160,70,0.15)" stroke-width="1"/>
+              <line x1="200" y1="0" x2="200" y2="420" stroke="rgba(50,160,70,0.15)" stroke-width="1"/>
+              <line x1="320" y1="0" x2="320" y2="420" stroke="rgba(50,160,70,0.15)" stroke-width="1"/>
+              <line x1="440" y1="0" x2="440" y2="420" stroke="rgba(50,160,70,0.15)" stroke-width="1"/>
+              <line x1="560" y1="0" x2="560" y2="420" stroke="rgba(50,160,70,0.15)" stroke-width="1"/>
+              <!-- Via dots -->
+              <circle cx="80" cy="80" r="3" fill="rgba(200,160,0,0.3)" stroke="rgba(200,160,0,0.5)" stroke-width="0.5"/>
+              <circle cx="200" cy="160" r="3" fill="rgba(200,160,0,0.3)" stroke="rgba(200,160,0,0.5)" stroke-width="0.5"/>
+              <circle cx="440" cy="240" r="3" fill="rgba(200,160,0,0.3)" stroke="rgba(200,160,0,0.5)" stroke-width="0.5"/>
+              <circle cx="560" cy="80" r="3" fill="rgba(200,160,0,0.3)" stroke="rgba(200,160,0,0.5)" stroke-width="0.5"/>
+              <!-- SATA ports label area -->
+              <rect x="560" y="160" width="30" height="80" rx="2" fill="rgba(0,0,0,0.3)" stroke="rgba(255,100,0,0.2)" stroke-width="0.8"/>
+              <text x="575" y="205" fill="rgba(255,100,0,0.3)" font-size="7" text-anchor="middle" font-family="monospace">SATA</text>
+              <!-- RAM slot labels -->
+              <text x="200" y="30" fill="rgba(14,165,233,0.3)" font-size="8" text-anchor="middle" font-family="monospace">DDR5 DIMM</text>
+              <!-- PCIe label -->
+              <text x="320" y="380" fill="rgba(234,179,8,0.3)" font-size="8" text-anchor="middle" font-family="monospace">PCIe x16</text>
+              <!-- PCIe slot line -->
+              <rect x="80" y="360" width="300" height="8" rx="2" fill="rgba(234,179,8,0.08)" stroke="rgba(234,179,8,0.2)" stroke-width="0.8"/>
+            </svg>
+
+            <!-- Fan 1 (top-left) -->
+            <div class="maint-fan-unit maint-fan-left dirty-fan" id="maintFan1" title="Haz clic con aire comprimido para limpiar este ventilador" style="z-index:12;"></div>
+
+            <!-- Fan 2 (bottom-right) -->
+            <div class="maint-fan-unit maint-fan-right dirty-fan" id="maintFan2" title="Haz clic con aire comprimido para limpiar este ventilador" style="z-index:12;"></div>
+
+            <!-- CPU socket + paste area (centre, below heatsink) -->
+            <div class="maint-cpu-die-area" id="maintCpuChip" title="Área del CPU: Usa alcohol isopropílico para quitar la pasta seca y luego aplica pasta fresca" style="z-index:16;">
+              <span style="font-size:9px;color:#9ca3af;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;">IHS CPU</span>
+              <div class="thermal-paste-spot dry-paste" id="maintPasteSpot" style="margin-top:4px;">PASTA</div>
+            </div>
+
+            <!-- Heatsink overlay (removed with screwdriver) -->
+            <div class="maint-heatsink-unit" id="maintHeatsink" title="Disipador de calor: usa el destornillador para aflojar sus tornillos y levantarlo" style="display:flex;">
+              <svg width="60" height="40" viewBox="0 0 60 40" style="margin-bottom:4px;">
+                <rect x="2" y="2" width="56" height="36" rx="3" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+                <line x1="10" y1="2" x2="10" y2="38" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+                <line x1="18" y1="2" x2="18" y2="38" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+                <line x1="26" y1="2" x2="26" y2="38" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+                <line x1="34" y1="2" x2="34" y2="38" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+                <line x1="42" y1="2" x2="42" y2="38" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+                <line x1="50" y1="2" x2="50" y2="38" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+              </svg>
+              ❄️ DISIPADOR CPU
+              <small style="font-size:9px;opacity:0.7;margin-top:2px;">(Haz clic para retirar)</small>
+            </div>
+
+          </div><!-- /maint-board-stage -->
+        </div><!-- /clean-canvas-workspace -->
+      </div><!-- /hw-sim-container -->
+    </section>
+
+
+  </main>
+
+  <!-- Modal de Inspección y Reconocimiento de Componentes -->
+  <div class="modal-overlay" id="componentInspectorModal" style="display: none;">
+    <div class="modal-card inspector-card">
+      <div class="modal-header">
+        <h3 id="inspectCompTitle">🔍 Inspección y Reconocimiento de Componente</h3>
+        <button class="modal-close-btn" id="btnCloseInspector">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="inspect-grid">
+          <div class="inspect-icon-box" id="inspectIconBox">⚙️</div>
+          <div class="inspect-details">
+            <h4 id="inspectCompName">Nombre del Componente</h4>
+            <div class="inspect-badge-row">
+              <span class="inspect-tag" id="inspectCompSlot">Ubicación: Socket / Ranura</span>
+              <span class="inspect-tag status" id="inspectCompStatus">Estado: Sucio</span>
+            </div>
+            <p id="inspectCompDesc">Descripción detallada de la función del componente en la arquitectura.</p>
+          </div>
+        </div>
+
+        <div class="inspect-diagnosis-box">
+          <h5>Diagnóstico Técnico y Mantenimiento Necesario:</h5>
+          <p id="inspectCompDiag">Detalles de mantenimiento (ej: pasta térmica reseca, polvo, obsoleto).</p>
+        </div>
+
+        <div class="inspect-quiz-box" id="inspectQuizBox">
+          <h5>Test de Reconocimiento de Hardware:</h5>
+          <p id="inspectQuizQuestion">¿En qué lugar debe conectarse este componente?</p>
+          <div class="inspect-quiz-options" id="inspectQuizOptions">
+            <!-- Opciones del quiz -->
+          </div>
+          <div class="quiz-feedback" id="quizFeedback"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Ayuda Universal y Documentación -->
+  <div class="modal-overlay" id="helpModal" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Centro de Ayuda y Referencia de la Suite</h3>
+        <button class="modal-close-btn" id="btnCloseHelp">✕</button>
+      </div>
+      <div class="modal-body">
+        <h4>1. Editor VS Code Multi-Lenguaje</h4>
+        <p>Soporta <strong>Python 3, C, C++, Java y JavaScript</strong>. Escribe código o elige plantillas, presiona <code>Ctrl+Enter</code> o "Ejecutar" para compilar y correr con el motor de ejecución en sandbox.</p>
+
+        <h4>2. Terminal Linux Bash</h4>
+        <p>Emula un entorno Linux completo con sistema de archivos virtual persistente. Comandos soportados: <code>ls, cd, pwd, mkdir, rm, touch, cat, echo, grep, whoami, uname, date, neofetch, python3, gcc, clear</code>, etc.</p>
+
+        <h4>3. Terminal Windows (PowerShell & CMD)</h4>
+        <p>Emula el símbolo de sistema de Windows y PowerShell. Comandos soportados: <code>dir, cd, md, del, type, cls, ver, systeminfo, ipconfig, tasklist, Get-Process</code>, etc.</p>
+
+        <h4>4. Web Studio (HTML/CSS/JS)</h4>
+        <p>Edita tu página en tiempo real con recarga instantánea, pruebas en vista móvil/tablet/pantalla completa y consola de depuración web integrada.</p>
+
+        <h4>5. Simulador 1: Reconocimiento de Componentes</h4>
+        <p>Inspecciona la anatomía detallada de placas madre, CPUs, memorias SO-DIMM, heatpipes con turbina y zócalos mediante puntos interactivos (hotspots) y pon a prueba tu conocimiento con exámenes de reconocimiento de hardware.</p>
+
+        <h4>6. Simulador 2: Montaje en su Lugar Correspondiente</h4>
+        <p>Simulador con <strong>validación estricta de ranuras y sockets</strong> para PC gamer y Notebook CISCO: arrastra o selecciona cada pieza y colócala en su posición exacta. Detecta y rechaza errores técnicos si intentas colocar una pieza en la ranura equivocada.</p>
+
+        <h4>7. Simulador 3: Upgrades y Reemplazo de Componentes</h4>
+        <p>Diagnostica computadoras y laptops lentas u obsoletas con problemas de arranque y bajos FPS. Desmonta las piezas viejas, instala repuestos modernos y comprueba el impacto en tiempo real con benchmarks de FPS, tiempo de booteo y memoria.</p>
+
+        <h4>8. Simulador 4: Limpieza y Mantenimiento Técnico</h4>
+        <p>Taller interactivo de mantenimiento profundo: usa la lata de aire comprimido para expulsar polvo de ventiladores, pasa la brocha antiestática por ranuras, desatornilla el disipador, disuelve la pasta térmica reseca con alcohol isopropílico al 99.9% y aplica una gota calibrada de pasta térmica fresca.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast de Notificaciones -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts Modulares -->
+  <script src="js/linux-term.js"></script>
+  <script src="js/windows-term.js"></script>
+  <script src="js/vscode.js"></script>
+  <script src="js/web-editor.js"></script>
+  <!-- Motor 3D WebGL Three.js & Controles Orbitales estilo pclab.eniun.com -->
+  <script src="js/three.min.js"></script>
+  <script src="js/OrbitControls.js"></script>
+  <script src="js/hardware-3d.js"></script>
+  <script src="js/client-api.js"></script>
+  <script src="js/sim-recognition.js"></script>
+  <script src="js/sim-placement.js"></script>
+  <script src="js/sim-upgrade.js"></script>
+  <script src="js/sim-maintenance.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

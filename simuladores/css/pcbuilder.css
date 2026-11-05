@@ -1,0 +1,2032 @@
+/* ==========================================================================
+   PCBUILDER.CSS - SIMULADORES DE MONTAJE DE COMPUTADORAS
+   1. BuildCores Desktop Simulator (Placa, CPU, Pasta, Cooler, RAM, GPU, PSU, POST)
+   2. Cisco IT Essentials Virtual Notebook (Batería, RAM 45°, Caddy, Lectora, Flex)
+   ========================================================================== */
+
+/* ==========================================================================
+   SECCIÓN A: SIMULADOR DE ESCRITORIO BUILDCORES
+   ========================================================================== */
+.pcb-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #121316;
+  overflow: hidden;
+}
+
+.pcb-topbar {
+  height: 52px;
+  background-color: #1c1d22;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  flex-shrink: 0;
+  gap: 12px;
+}
+
+.pcb-title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.pcb-badge {
+  font-size: 10px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #007acc, #00d2ff);
+  color: #ffffff;
+  padding: 2px 6px;
+  border-radius: 3px;
+  width: fit-content;
+  letter-spacing: 0.5px;
+}
+
+.pcb-subtitle {
+  font-size: 11.5px;
+  color: #9da3af;
+}
+
+.pcb-top-stats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.pcb-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.stat-lbl { color: #858585; }
+.stat-val { font-weight: 700; color: #ffffff; }
+.stat-val.pass { color: #4ec9b0; }
+
+.pcb-power-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #e63946, #d90429);
+  border: none;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(230, 57, 70, 0.4);
+  transition: all var(--transition-fast);
+}
+
+.pcb-power-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 18px rgba(230, 57, 70, 0.7);
+}
+
+.pcb-power-btn.powered-on {
+  background: linear-gradient(135deg, #2a9d8f, #27c93f);
+  box-shadow: 0 0 16px rgba(39, 201, 63, 0.6);
+}
+
+/* Espacio de Trabajo Principal */
+.pcb-workspace {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Catálogo Izquierdo */
+.pcb-catalog {
+  width: 270px;
+  background-color: #18191e;
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.catalog-header {
+  padding: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.catalog-header h3 {
+  font-size: 12px;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.catalog-hint {
+  font-size: 10.5px;
+  color: #858585;
+}
+
+.catalog-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 8px 10px;
+  background: #1f2026;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cat-chip {
+  background: #282a32;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #b0b4be;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.cat-chip:hover {
+  background: #323540;
+  color: #ffffff;
+}
+
+.cat-chip.active {
+  background: #007acc;
+  color: #ffffff;
+  border-color: #0098ff;
+}
+
+.catalog-items-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pcb-item-card {
+  background: #21232a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.pcb-item-card:hover {
+  border-color: #007acc;
+  transform: translateX(2px);
+  background: #262932;
+}
+
+.pcb-item-card.installed {
+  border-color: #27c93f;
+  background: rgba(39, 201, 63, 0.08);
+}
+
+.item-badge-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.item-cat-tag {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #58a6ff;
+  text-transform: uppercase;
+}
+
+.item-status-tag {
+  font-size: 10px;
+  color: #4ec9b0;
+}
+
+.item-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 3px;
+}
+
+.item-specs {
+  font-size: 11px;
+  color: #8c93a0;
+  line-height: 1.4;
+}
+
+/* Área Central del Chasis de PC */
+.pcb-canvas-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow: auto;
+  position: relative;
+  background: radial-gradient(circle at center, #1a1c23 0%, #0d0e12 100%);
+}
+
+.chassis-container {
+  width: 100%;
+  max-width: 640px;
+  height: 520px;
+  position: relative;
+}
+
+.chassis-case {
+  width: 100%;
+  height: 100%;
+  background: #1e2029;
+  border: 4px solid #333846;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.7), inset 0 0 15px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.case-header {
+  height: 34px;
+  background: #14161d;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.case-model-name {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #cfd3dc;
+}
+
+.case-view-toggles {
+  display: flex;
+  gap: 4px;
+}
+
+.case-toggle-btn {
+  background: #242732;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #8c93a0;
+  font-size: 10.5px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.case-toggle-btn.active {
+  background: #007acc;
+  color: #ffffff;
+}
+
+/* Interior del Gabinete */
+.case-interior {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+  background: #13141a;
+  overflow: hidden;
+}
+
+/* Ventiladores del Chasis */
+.case-fan {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: #1a1c24;
+  border: 2px solid #2d313d;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.8);
+  z-index: 5;
+}
+
+.front-fan { right: 8px; }
+.fan-1 { top: 60px; }
+.fan-2 { top: 130px; }
+.rear-fan { left: 8px; top: 70px; }
+
+.blades {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #2a2d38 0deg 90deg, #181a20 90deg 180deg, #2a2d38 180deg 270deg, #181a20 270deg 360deg);
+}
+
+.case-interior.spinning .blades {
+  animation: spinFan 0.25s linear infinite;
+  box-shadow: 0 0 14px #00d2ff;
+}
+
+@keyframes spinFan {
+  100% { transform: rotate(360deg); }
+}
+
+/* Bandeja de Tarjeta Madre */
+.mobo-tray {
+  flex: 1;
+  margin-left: 60px;
+  margin-right: 60px;
+  background: rgba(25, 27, 35, 0.7);
+  border: 2px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-normal);
+}
+
+.mobo-tray.installed {
+  border: 2px solid #3d4354;
+  background: #1b1e28;
+}
+
+.slot-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #646a78;
+}
+
+.ph-icon { font-size: 28px; }
+.ph-text { font-size: 12px; font-weight: 500; }
+
+.installed-mobo {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: linear-gradient(135deg, #181b22, #101217);
+  border-radius: 6px;
+  padding: 10px;
+}
+
+/* Zonas de la Motherboard */
+.mobo-socket-zone {
+  position: absolute;
+  top: 24px;
+  left: 35px;
+  width: 80px;
+  height: 80px;
+  background: #252834;
+  border: 2px dashed #007acc;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.socket-lever {
+  position: absolute;
+  right: -6px;
+  top: 10px;
+  bottom: 10px;
+  width: 4px;
+  background: # silver;
+  background: #a0a6b5;
+  border-radius: 2px;
+}
+
+.installed-cpu {
+  width: 68px;
+  height: 68px;
+  background: linear-gradient(135deg, #b0b5c0, #737887);
+  border: 1px solid #d4d8e2;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+.cpu-ihs-text {
+  font-size: 8px;
+  font-weight: 800;
+  color: #222631;
+  text-align: center;
+}
+
+.thermal-paste-spot {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  background: radial-gradient(circle, #7d8494 60%, rgba(125, 132, 148, 0) 100%);
+  border-radius: 50%;
+  z-index: 8;
+}
+
+.cooler-mount-zone {
+  position: absolute;
+  top: 18px;
+  left: 29px;
+  width: 92px;
+  height: 92px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.installed-cooler {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, #1e222d 40%, #0d0f14 100%);
+  border: 2px solid #4a5166;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+  pointer-events: auto;
+}
+
+.cooler-fan-center {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #14161f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cooler-label {
+  font-size: 7px;
+  font-weight: 700;
+  color: #58a6ff;
+  margin-top: 2px;
+}
+
+/* Ranuras RAM */
+.mobo-ram-zone {
+  position: absolute;
+  top: 20px;
+  left: 140px;
+  width: 80px;
+  height: 90px;
+}
+
+.ram-slot-row {
+  display: flex;
+  gap: 6px;
+  height: 100%;
+}
+
+.dimm-slot {
+  width: 12px;
+  height: 100%;
+  background: #151720;
+  border: 1px solid #393e4f;
+  border-radius: 2px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.ram-stick.installed {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to bottom, #007acc, #151a24);
+  border: 1px solid #58a6ff;
+  border-radius: 2px;
+  box-shadow: 0 0 6px #007acc;
+}
+
+/* Ranura M.2 */
+.mobo-m2-zone {
+  position: absolute;
+  top: 125px;
+  left: 60px;
+  width: 110px;
+  height: 22px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+}
+
+.m2-stick {
+  width: 100%;
+  height: 16px;
+  background: #1e222d;
+  border: 1px solid #555c70;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+}
+
+.m2-label {
+  font-size: 8px;
+  color: #4ec9b0;
+  font-weight: 600;
+}
+
+/* Ranura GPU PCIe */
+.mobo-pcie-zone {
+  position: absolute;
+  top: 160px;
+  left: 20px;
+  right: 20px;
+  height: 75px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.installed-gpu {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #232733, #151820);
+  border: 2px solid #5a647d;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 6px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.7);
+}
+
+.gpu-fan {
+  width: 44px;
+  height: 44px;
+  background: #111318;
+  border-radius: 50%;
+  border: 1px solid #3f4659;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gpu-badge {
+  font-size: 9px;
+  font-weight: 800;
+  color: #7ee787;
+  letter-spacing: 0.5px;
+}
+
+/* Bahía PSU Shroud */
+.case-psu-shroud {
+  height: 65px;
+  background: #15171e;
+  border-top: 2px solid #2d313e;
+  margin-top: 10px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  position: relative;
+}
+
+.installed-psu {
+  width: 140px;
+  height: 48px;
+  background: #20242f;
+  border: 1px solid #4a5266;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 8px;
+}
+
+.psu-specs {
+  font-size: 8.5px;
+  font-weight: 700;
+  color: #ffb703;
+}
+
+.slot-lbl {
+  position: absolute;
+  bottom: -14px;
+  font-size: 8px;
+  font-weight: 700;
+  color: #7b8396;
+}
+
+/* Pantalla BIOS POST */
+.bios-post-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #0000aa;
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+}
+
+.bios-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid #ffffff;
+  padding-bottom: 6px;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.bios-close-btn {
+  background: #aa0000;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  padding: 2px 8px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.bios-content {
+  flex: 1;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  line-height: 20px;
+}
+
+/* Panel de Checklist Derecho */
+.pcb-checklist {
+  width: 280px;
+  background: #18191e;
+  border-left: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.checklist-header {
+  padding: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.checklist-header h3 {
+  font-size: 12px;
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: #2a2d38;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #007acc, #4ec9b0);
+  transition: width 0.3s ease;
+}
+
+.assembly-steps {
+  flex: 1;
+  overflow-y: auto;
+  list-style: none;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 11.5px;
+  color: #8c93a0;
+  padding: 6px;
+  border-radius: 4px;
+}
+
+.step-item.active {
+  background: rgba(0, 122, 204, 0.15);
+  color: #ffffff;
+  border-left: 3px solid #007acc;
+}
+
+.step-item.done {
+  color: #4ec9b0;
+  text-decoration: line-through;
+}
+
+.pcb-actions {
+  padding: 10px;
+  display: flex;
+  gap: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.pcb-action-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.pcb-action-btn.primary { background: #007acc; color: #ffffff; }
+.pcb-action-btn.secondary { background: #282a32; color: #cccccc; }
+
+/* ==========================================================================
+   SECCIÓN B: SIMULADOR DE NOTEBOOK CISCO IT ESSENTIALS
+   ========================================================================== */
+.cisco-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #121316;
+  overflow: hidden;
+}
+
+.cisco-header {
+  height: 48px;
+  background: #181920;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  flex-shrink: 0;
+}
+
+.cisco-branding {
+  display: flex;
+  flex-direction: column;
+}
+
+.cisco-badge {
+  font-size: 10px;
+  font-weight: 800;
+  background: #008080;
+  color: #ffffff;
+  padding: 2px 6px;
+  border-radius: 3px;
+  width: fit-content;
+}
+
+.cisco-title {
+  font-size: 11.5px;
+  color: #a0a6b5;
+}
+
+.cisco-mode-toggles {
+  display: flex;
+  gap: 6px;
+}
+
+.cisco-mode-btn {
+  background: #252834;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #cccccc;
+  font-size: 11.5px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cisco-mode-btn.active {
+  background: #008080;
+  color: #ffffff;
+}
+
+.cisco-stage-nav {
+  height: 40px;
+  background: #1e2028;
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 8px;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.cisco-stage-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.stage-step-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: #8c93a0;
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.stage-step-btn .num {
+  width: 18px;
+  height: 18px;
+  background: #2b2e3a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.stage-step-btn.active {
+  background: #2b3040;
+  color: #ffffff;
+}
+
+.stage-step-btn.active .num {
+  background: #008080;
+  color: #ffffff;
+}
+
+.stage-step-btn.completed {
+  color: #4ec9b0;
+}
+
+.stage-step-btn.completed .num {
+  background: #27c93f;
+  color: #ffffff;
+}
+
+/* Contenido Principal Cisco */
+.cisco-main-content {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+.cisco-viewport {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+  background: radial-gradient(circle at center, #1c1f2a 0%, #0e1015 100%);
+  overflow: auto;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cisco-instruction-box {
+  width: 100%;
+  max-width: 640px;
+  background: rgba(0, 128, 128, 0.15);
+  border: 1px solid rgba(0, 128, 128, 0.4);
+  border-radius: 6px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  color: #e6edf3;
+  margin-bottom: 12px;
+}
+
+/* Chasis de Laptop */
+.laptop-chassis {
+  width: 100%;
+  max-width: 620px;
+  height: 380px;
+  background: #222530;
+  border: 4px solid #363b4c;
+  border-radius: 14px;
+  position: relative;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cisco-layer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+/* Capa Batería */
+.laptop-bottom-plate {
+  width: 100%;
+  height: 100%;
+  background: #252836;
+  border-radius: 10px;
+  position: relative;
+  border: 2px solid #3d4358;
+  display: flex;
+  flex-direction: column;
+}
+
+.battery-bay {
+  height: 85px;
+  background: #181a24;
+  margin: 14px;
+  border-radius: 6px;
+  border: 2px dashed #4e556e;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.battery-pack {
+  width: 90%;
+  height: 60px;
+  background: linear-gradient(to bottom, #11131a, #202431);
+  border: 2px solid #4a5168;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b0b6c6;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: grab;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  transition: all 0.3s ease;
+}
+
+.battery-pack.removed {
+  transform: translateY(-80px);
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.latch {
+  position: absolute;
+  top: -10px;
+  padding: 4px 8px;
+  background: #363b4e;
+  border: 1px solid #5a627d;
+  border-radius: 3px;
+  font-size: 9.5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.latch-1 { left: 20px; }
+.latch-2 { right: 20px; }
+.latch.unlocked { background: #27c93f; color: #ffffff; }
+
+/* Capa RAM SO-DIMM */
+.laptop-ram-compartment {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.ram-door {
+  width: 260px;
+  height: 180px;
+  background: #2b2f3f;
+  border: 2px solid #484f68;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.door-screw {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #a0a6b5;
+  color: #1a1c24;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.door-screw.unscrewed {
+  animation: unscrewAnim 0.5s ease forwards;
+  opacity: 0.3;
+}
+
+@keyframes unscrewAnim {
+  50% { transform: rotate(720deg) scale(1.3); }
+  100% { transform: translateY(-20px) rotate(1440deg); opacity: 0; }
+}
+
+.ram-door.opened {
+  transform: translateY(-220px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ram-sockets-bay {
+  position: absolute;
+  width: 280px;
+  height: 190px;
+  background: #171922;
+  border: 2px solid #3c4256;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 12px;
+}
+
+.so-dimm-slot {
+  height: 70px;
+  background: #222634;
+  border: 1px solid #4a5268;
+  border-radius: 4px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clip-spring {
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
+  width: 6px;
+  background: #a8b0c4;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.clip-spring.left { left: 4px; }
+.clip-spring.right { right: 4px; }
+
+.so-dimm-module {
+  width: 82%;
+  height: 48px;
+  background: linear-gradient(135deg, #1b5e20, #2e7d32);
+  border: 2px solid #81c784;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4px 8px;
+  cursor: grab;
+  transition: transform 0.3s ease;
+}
+
+.so-dimm-module.ejected {
+  transform: rotate(-30deg) translateY(-14px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.6);
+}
+
+.so-label {
+  font-size: 8px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.so-chips {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.so-chips span {
+  width: 14px;
+  height: 14px;
+  background: #111111;
+  border-radius: 1px;
+}
+
+/* Capa Teclado */
+.laptop-top-deck {
+  width: 100%;
+  height: 100%;
+  background: #262a38;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+}
+
+.keyboard-well {
+  flex: 1;
+  background: #171922;
+  border: 2px dashed #474f67;
+  border-radius: 6px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.laptop-keyboard {
+  width: 95%;
+  height: 90%;
+  background: #1d202b;
+  border: 2px solid #4a526a;
+  border-radius: 4px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: grab;
+}
+
+.kb-key-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  height: 100%;
+}
+
+.kb-row {
+  display: flex;
+  gap: 3px;
+  flex: 1;
+}
+
+.kb-row span {
+  flex: 1;
+  background: #292d3c;
+  color: #cccccc;
+  font-size: 7.5px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kb-row .space-bar { flex: 4; }
+
+/* Bandeja de Piezas Retiradas */
+.cisco-parts-tray {
+  width: 100%;
+  max-width: 640px;
+  height: 75px;
+  background: #191b24;
+  border: 1px solid #373d50;
+  border-radius: 6px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tray-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: #7b8398;
+  margin-bottom: 4px;
+}
+
+.tray-slots {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  align-items: center;
+}
+
+.tray-item {
+  background: #262938;
+  border: 1px solid #4b536e;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  color: #ffffff;
+  cursor: pointer;
+  animation: popIn 0.3s ease;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Sidebar Cisco */
+.cisco-sidebar {
+  width: 270px;
+  background: #181920;
+  border-left: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  padding: 12px;
+  gap: 14px;
+}
+
+.tool-selector-box h4,
+.cisco-tasks-box h4 {
+  font-size: 11.5px;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.cisco-tools {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cisco-tool-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #222530;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #c0c6d6;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.cisco-tool-btn:hover { background: #2a2e3d; }
+
+.cisco-tool-btn.active {
+  background: #008080;
+  color: #ffffff;
+  border-color: #00a8a8;
+}
+
+.cisco-checklist {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cisco-check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 11.5px;
+  color: #8c93a0;
+  line-height: 1.4;
+}
+
+.cisco-check-item.done {
+  color: #4ec9b0;
+  text-decoration: line-through;
+}
+
+.cisco-actions-footer {
+  margin-top: auto;
+  display: flex;
+  gap: 8px;
+}
+
+.cisco-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.cisco-reset-btn { background: #2c2f3d; color: #cccccc; }
+.cisco-next-btn { background: #008080; color: #ffffff; }
+
+/* ==========================================================================
+   RESPONSIVE DESIGN PARA TELÉFONOS (ANDROID) Y TABLETS
+   ========================================================================== */
+@media (max-width: 900px) {
+  .pcb-workspace,
+  .cisco-main-content {
+    flex-direction: column;
+  }
+  
+  .pcb-catalog,
+  .pcb-checklist,
+  .cisco-sidebar {
+    width: 100%;
+    max-height: 200px;
+  }
+  
+  .chassis-container {
+    height: 380px;
+  }
+  
+  .laptop-chassis {
+    height: 280px;
+  }
+}
+
+/* ==========================================================================
+   ESTILOS DE MANTENIMIENTO, DIAGNÓSTICO, LIMPIEZA Y UPGRADE (HARDWARE)
+   ========================================================================== */
+
+/* Barra de Herramientas de Mantenimiento */
+.pcb-toolbelt {
+  background: #181a22;
+  border-bottom: 1px solid var(--border-color);
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex-shrink: 0;
+}
+
+.pcb-toolbelt::-webkit-scrollbar { display: none; }
+
+.toolbelt-label {
+  font-size: 10px;
+  font-weight: 800;
+  color: #7b8396;
+  white-space: nowrap;
+}
+
+.pcb-tool {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #232632;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #c0c6d6;
+  font-size: 11.5px;
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+}
+
+.pcb-tool:hover {
+  background: #2e3242;
+  color: #ffffff;
+}
+
+.pcb-tool.active {
+  background: #007acc;
+  color: #ffffff;
+  border-color: #0098ff;
+  box-shadow: 0 0 10px rgba(0, 122, 204, 0.4);
+}
+
+.tool-emoji { font-size: 13px; }
+
+.pcb-scenario-picker {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.scenario-lbl {
+  font-size: 11.5px;
+  color: #8c93a0;
+}
+
+.pcb-select {
+  background: #252834;
+  color: #ffffff;
+  border: 1px solid var(--border-color);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 11.5px;
+  outline: none;
+}
+
+.stat-val.hot { color: #f14c4c; animation: pulseRed 1s infinite alternate; }
+.stat-val.cold { color: #4ec9b0; }
+
+@keyframes pulseRed {
+  from { opacity: 0.7; }
+  to { opacity: 1; transform: scale(1.05); }
+}
+
+/* Capa de Polvo y Suciedad */
+.dust-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 40;
+  background: radial-gradient(circle at 70% 30%, rgba(140, 130, 115, 0.45) 0%, rgba(100, 95, 85, 0.25) 50%, rgba(0,0,0,0) 80%);
+  transition: opacity 0.4s ease;
+}
+
+.dust-overlay.cleaned {
+  opacity: 0;
+}
+
+.dust-cloud {
+  position: absolute;
+  background: rgba(180, 170, 150, 0.35);
+  filter: blur(8px);
+  border-radius: 50%;
+}
+
+.d1 { width: 120px; height: 90px; top: 40px; right: 80px; }
+.d2 { width: 160px; height: 110px; bottom: 80px; left: 100px; }
+.d3 { width: 80px; height: 70px; top: 120px; left: 50px; }
+
+/* Panel de Cristal Templado */
+.glass-side-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(1px);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease;
+}
+
+.glass-side-panel.removed {
+  transform: translateX(120%) scale(0.9);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.glass-reflection {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 1px;
+  user-select: none;
+}
+
+.glass-screw {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  background: #2a2d38;
+  border: 2px solid #636b80;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 13px;
+  cursor: pointer;
+  z-index: 55;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.glass-screw:hover {
+  background: #007acc;
+  transform: scale(1.15);
+}
+
+.glass-screw.unscrewed {
+  display: none;
+}
+
+.s-top-left { top: 10px; left: 10px; }
+.s-top-right { top: 10px; right: 10px; }
+.s-bottom-left { bottom: 10px; left: 10px; }
+.s-bottom-right { bottom: 10px; right: 10px; }
+
+/* Ventiladores y Cooler con Suciedad */
+.dirty-fan .fan-dust-spot {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(140, 130, 115, 0.7) 40%, rgba(0,0,0,0) 75%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.dirty-fan.cleaned .fan-dust-spot {
+  display: none;
+}
+
+.dirty-cooler {
+  border: 2px solid #8c8273 !important;
+  box-shadow: inset 0 0 12px rgba(140, 130, 115, 0.8) !important;
+}
+
+.cooler-screw {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: #a0a6b5;
+  border-radius: 50%;
+  color: #111;
+  font-size: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.c-s1 { top: 6px; left: 6px; }
+.c-s2 { top: 6px; right: 6px; }
+.c-s3 { bottom: 6px; left: 6px; }
+.c-s4 { bottom: 6px; right: 6px; }
+
+.cooler-screw.unscrewed {
+  opacity: 0.2;
+}
+
+/* Estados de Pasta Térmica */
+.dry-paste {
+  background: #857f76 !important;
+  box-shadow: inset 0 0 6px #4d4942;
+  border: 1px dashed #3a3731;
+}
+
+.clean-die {
+  background: linear-gradient(135deg, #d4af37, #f3e5ab) !important;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.6) !important;
+  border: 1px solid #ffffff !important;
+}
+
+.fresh-paste {
+  background: radial-gradient(circle, #00d2ff 30%, #007acc 70%) !important;
+  box-shadow: 0 0 12px #00d2ff !important;
+  border-radius: 50%;
+}
+
+/* Bahía HDD 3.5" */
+.hdd-bay-zone {
+  position: absolute;
+  bottom: 80px;
+  right: 20px;
+  width: 130px;
+  height: 48px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.hdd-drive-unit {
+  width: 100%;
+  height: 100%;
+  background: #1c1e26;
+  border: 1px solid #484f64;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  gap: 6px;
+  position: relative;
+}
+
+.hdd-drive-unit.old-drive {
+  border-color: #8c8273;
+}
+
+.hdd-label {
+  font-size: 8px;
+  color: #cfd4e0;
+  line-height: 1.2;
+}
+
+.hdd-sata-cable {
+  position: absolute;
+  left: -14px;
+  top: 16px;
+  width: 14px;
+  height: 8px;
+  background: #d90429;
+  border-radius: 2px 0 0 2px;
+  cursor: pointer;
+}
+
+.hdd-sata-cable.disconnected {
+  background: #555555;
+  transform: translateX(-6px);
+}
+
+/* GPU Cable y Seguro PCIe */
+.pcie-retention-latch {
+  position: absolute;
+  right: -6px;
+  top: 15px;
+  width: 12px;
+  height: 14px;
+  background: #ffb703;
+  border-radius: 2px;
+  cursor: pointer;
+  z-index: 15;
+}
+
+.pcie-retention-latch.unlocked {
+  background: #27c93f;
+  transform: rotate(45deg);
+}
+
+.pcie-chassis-screw {
+  position: absolute;
+  left: -8px;
+  top: 8px;
+  width: 12px;
+  height: 12px;
+  background: #a0a6b5;
+  border-radius: 50%;
+  font-size: 8px;
+  color: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 15;
+}
+
+.gpu-power-cable {
+  position: absolute;
+  right: 12px;
+  top: -8px;
+  width: 20px;
+  height: 10px;
+  background: #ffcc00;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.gpu-power-cable.disconnected {
+  background: #444;
+  transform: translateY(-8px);
+}
+
+/* Pestañas del Catálogo Dual */
+.catalog-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.cat-tab-btn {
+  flex: 1;
+  padding: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  background: #252834;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #8c93a0;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.cat-tab-btn.active {
+  background: #007acc;
+  color: #ffffff;
+  border-color: #0098ff;
+}
+
+/* ==========================================================================
+   ESTILOS DE NOTEBOOK (CISCO) MEJORADOS CON REFRIGERACIÓN
+   ========================================================================== */
+
+/* Tapa Inferior Completa */
+.laptop-full-cover {
+  width: 100%;
+  height: 100%;
+  background: #1e212b;
+  border: 2px solid #3d4358;
+  border-radius: 8px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.laptop-full-cover.opened {
+  transform: translateY(-260px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cover-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #7b8398;
+  text-align: center;
+  max-width: 80%;
+}
+
+.cover-screw {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: #a0a6b5;
+  color: #111;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.cs-1 { top: 12px; left: 12px; }
+.cs-2 { top: 12px; right: 12px; }
+.cs-3 { bottom: 12px; left: 12px; }
+.cs-4 { bottom: 12px; right: 12px; }
+.cover-screw.unscrewed { opacity: 0.1; }
+
+/* Sistema de Refrigeración Laptop */
+.laptop-cooling-system {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 16px;
+}
+
+.laptop-blower-fan {
+  width: 110px;
+  height: 110px;
+  background: #181a24;
+  border: 2px solid #4a5268;
+  border-radius: 12px 50% 50% 12px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.blower-housing {
+  width: 80px;
+  height: 80px;
+  background: #12131a;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blower-fins {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #2b3040 0deg 30deg, #181a24 30deg 60deg, #2b3040 60deg 90deg, #181a24 90deg 120deg, #2b3040 120deg 150deg, #181a24 150deg 180deg, #2b3040 180deg 210deg, #181a24 210deg 240deg, #2b3040 240deg 270deg, #181a24 270deg 300deg, #2b3040 300deg 330deg, #181a24 330deg 360deg);
+}
+
+.lint-clog {
+  position: absolute;
+  top: 4px;
+  right: -8px;
+  width: 32px;
+  height: 48px;
+  background: #736b5e;
+  border-radius: 4px;
+  box-shadow: inset 0 0 6px #3a352c;
+}
+
+.laptop-blower-fan.cleaned .lint-clog {
+  display: none;
+}
+
+.blower-lbl {
+  position: absolute;
+  bottom: -16px;
+  font-size: 8px;
+  font-weight: 700;
+  color: #e63946;
+}
+
+.laptop-heatpipe {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.copper-pipe {
+  width: 90px;
+  height: 12px;
+  background: linear-gradient(to bottom, #d47043, #b85025);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.heatsink-plate {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #d47043, #9e3d16);
+  border: 1px solid #f28b5e;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.heat-screw {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #ffffff;
+  border-radius: 50%;
+  color: #111;
+  font-size: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.hs-1 { top: 4px; left: 4px; }
+.hs-2 { bottom: 4px; right: 4px; }
+.hs-lbl { font-size: 7px; color: #fff; font-weight: 700; text-align: center; }
+
+.laptop-die-socket {
+  position: absolute;
+  right: 50px;
+  width: 80px;
+  height: 80px;
+  background: #1b1d26;
+  border: 1px solid #363b4c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.laptop-die-chip {
+  width: 60px;
+  height: 60px;
+  background: #252936;
+  border: 1px solid #4f576e;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.die-label { font-size: 6px; font-weight: 800; color: #58a6ff; margin-bottom: 4px; }
+
+/* ==========================================================================
+   MODAL DE INSPECCIÓN Y RECONOCIMIENTO DE COMPONENTES
+   ========================================================================== */
+.inspector-card {
+  max-width: 600px;
+}
+
+.inspect-grid {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.inspect-icon-box {
+  width: 64px;
+  height: 64px;
+  background: #181922;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.inspect-details {
+  flex: 1;
+}
+
+.inspect-details h4 {
+  font-size: 15px;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.inspect-badge-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.inspect-tag {
+  font-size: 10.5px;
+  background: rgba(0, 122, 204, 0.2);
+  color: #58a6ff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.inspect-tag.status {
+  background: rgba(230, 57, 70, 0.2);
+  color: #f14c4c;
+}
+
+.inspect-diagnosis-box {
+  background: rgba(255, 183, 3, 0.1);
+  border: 1px solid rgba(255, 183, 3, 0.3);
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-bottom: 14px;
+}
+
+.inspect-diagnosis-box h5 {
+  font-size: 11.5px;
+  color: #ffb703;
+  margin-bottom: 4px;
+}
+
+.inspect-diagnosis-box p {
+  font-size: 11.5px;
+  color: #e6edf3;
+  line-height: 1.4;
+}
+
+.inspect-quiz-box {
+  background: #1c1e28;
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  border-radius: 6px;
+}
+
+.inspect-quiz-box h5 {
+  font-size: 12px;
+  color: #4ec9b0;
+  margin-bottom: 6px;
+}
+
+.inspect-quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.quiz-btn {
+  background: #252834;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #c9d1d9;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 11.5px;
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.quiz-btn:hover {
+  background: #313546;
+  color: #ffffff;
+}
+
+.quiz-btn.correct {
+  background: #238636;
+  color: #ffffff;
+  border-color: #2ea043;
+}
+
+.quiz-btn.wrong {
+  background: #da3633;
+  color: #ffffff;
+  border-color: #f85149;
+}
+
+.quiz-feedback {
+  margin-top: 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+}

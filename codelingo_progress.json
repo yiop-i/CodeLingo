@@ -1,0 +1,136 @@
+{
+    "user": {
+        "name": "Coder",
+        "email": "coder@codelingo.dev",
+        "avatar": "🤖",
+        "theme": "dark",
+        "gems": 0,
+        "streak_days": 0,
+        "hearts": 5,
+        "xp": 0
+    },
+    "active_group": "hardware",
+    "active_course": "PC de Escritorio",
+    "courses_progress": {
+        "Python": {
+            "current_section_idx": 0,
+            "completed_lessons": [],
+            "unlocked_sections": [
+                0
+            ],
+            "passed_evaluations": [],
+            "remedial_lessons": {},
+            "unlocked_pdfs": []
+        },
+        "HTML": {
+            "current_section_idx": 0,
+            "completed_lessons": [],
+            "unlocked_sections": [
+                0
+            ],
+            "passed_evaluations": [],
+            "remedial_lessons": {},
+            "unlocked_pdfs": []
+        },
+        "C++": {
+            "current_section_idx": 0,
+            "completed_lessons": [],
+            "unlocked_sections": [
+                0
+            ],
+            "passed_evaluations": [],
+            "remedial_lessons": {},
+            "unlocked_pdfs": []
+        },
+        "C": {
+            "current_section_idx": 0,
+            "completed_lessons": [],
+            "unlocked_sections": [
+                0
+            ],
+            "passed_evaluations": [],
+            "remedial_lessons": {},
+            "unlocked_pdfs": []
+        },
+        "Javascript": {
+            "current_section_idx": 0,
+            "completed_lessons": [],
+            "unlocked_sections": [
+                0
+            ],
+            "passed_evaluations": [],
+            "remedial_lessons": {},
+            "unlocked_pdfs": []
+        },
+        "Java": {
+            "current_section_idx": 0,
+            "completed_lessons": [],
+            "unlocked_sections": [
+                0
+            ],
+            "passed_evaluations": [],
+            "remedial_lessons": {},
+            "unlocked_pdfs": []
+        },
+        "CSS": {
+            "current_section_idx": 0,
+            "completed_lessons": [],
+            "unlocked_sections": [
+                0
+            ],
+            "passed_evaluations": [],
+            "remedial_lessons": {},
+            "unlocked_pdfs": []
+        },
+        "Javascript Web": {
+            "current_section_idx": 0,
+            "completed_lessons": [],
+            "unlocked_sections": [
+                0
+            ],
+            "passed_evaluations": [],
+            "remedial_lessons": {},
+            "unlocked_pdfs": []
+        },
+        "Terminal de Windows": {
+            "current_section_idx": 0,
+            "completed_lessons": [],
+            "unlocked_sections": [
+                0
+            ],
+            "passed_evaluations": [],
+            "remedial_lessons": {},
+            "unlocked_pdfs": []
+        },
+        "Terminal de Linux": {
+            "current_section_idx": 0,
+            "completed_lessons": [],
+            "unlocked_sections": [
+                0
+            ],
+            "passed_evaluations": [],
+            "remedial_lessons": {},
+            "unlocked_pdfs": []
+        },
+        "PC de Escritorio": {
+            "current_section_idx": 0,
+            "completed_lessons": [],
+            "unlocked_sections": [
+                0
+            ],
+            "passed_evaluations": [],
+            "remedial_lessons": {},
+            "unlocked_pdfs": []
+        },
+        "Notebook": {
+            "current_section_idx": 0,
+            "completed_lessons": [],
+            "unlocked_sections": [
+                0
+            ],
+            "passed_evaluations": [],
+            "remedial_lessons": {},
+            "unlocked_pdfs": []
+        }
+    }
+}

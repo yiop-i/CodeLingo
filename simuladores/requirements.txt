@@ -1,0 +1,8 @@
+# Dev & Hardware Simulator Suite - Requirements
+# ---------------------------------------------
+# Esta suite ha sido diseñada utilizando la Biblioteca Estándar de Python 3 (3.8+).
+# ¡NO requiere dependencias externas obligatorias de pip!
+# Funciona inmediatamente al clonar o descargar el repositorio ejecutando:
+#
+#     python main.py
+#
