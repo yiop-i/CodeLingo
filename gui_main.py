@@ -118,7 +118,8 @@ class CodeLingoApp(tk.Tk):
         brand_frame.pack(side="left", fill="y")
 
         logo_lbl = tk.Label(brand_frame, text="CodeLingo", font=("Segoe UI", 16, "bold"),
-                            fg="#58CC02", bg=t["header_bg"])
+                            fg="#58CC02", bg=t["header_bg"], cursor="hand2")
+logo_lbl.bind("<Button-1>", lambda e: self.switch_tab("learn"))
         logo_lbl.pack(side="left", anchor="center")
 
         badge = tk.Label(brand_frame, text="PRO", font=("Segoe UI", 8, "bold"),
@@ -130,7 +131,7 @@ class CodeLingoApp(tk.Tk):
         actions_frame.pack(side="right", fill="y")
 
         # Botón Lanzar Suite Web/Móvil
-        DuoButton(actions_frame, text="📱 Celular / Web", width=125, height=36, font_size=8,
+        DuoButton(actions_frame, text="📱 Celular / Web", width=135, height=40, font_size=10,
                   bg_color="#1CB0F6", shadow_color="#1899D6", fg_color="#FFFFFF",
                   command=self._launch_web_mobile).pack(side="left", padx=4)
 

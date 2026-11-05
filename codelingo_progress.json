@@ -9,8 +9,8 @@
         "hearts": 5,
         "xp": 0
     },
-    "active_group": "hardware",
-    "active_course": "PC de Escritorio",
+    "active_group": "languages",
+    "active_course": "Python",
     "courses_progress": {
         "Python": {
             "current_section_idx": 0,
