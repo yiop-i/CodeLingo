@@ -37,7 +37,7 @@ Cada una de las **1,202 lecciones** cuenta con un asistente secuencial estricto 
 
 4. **Fase 4: Reto Integrador Acumulativo**
    - Desafío práctico acumulativo que exige combinar el nuevo concepto aprendido con los temas vistos previamente a lo largo de la sección y del curso.
-   - Al completar el reto integrador, se otorgan +15 XP y +5 Gemas, marcando la lección como aprobada y desbloqueando el siguiente nivel en el camino de Duolingo.
+   - Al completar el reto integrador, se otorgan +15 XP y +5 Gemas, marcando la lección como aprobada y desbloqueando el siguiente nivel en el camino de CodeLingo.
 
 ---
 
